@@ -11,7 +11,10 @@
     { "source": "/Css/(.*)", "destination": "/App/Assets/Css/$1" },
     { "source": "/JavaScript/(.*)", "destination": "/App/Assets/JavaScript/$1" },
     { "source": "/Image/(.*)", "destination": "/App/Assets/Image/$1" },
-    { "source": "/", "destination": "/App/Pages/Menu_D.html" },
-    { "source": "/(.*)", "destination": "/App/index.js" }
+    { "source": "/", "destination": "/App/Pages/Menu_D.html" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/App/index.js" }
   ]
 }
