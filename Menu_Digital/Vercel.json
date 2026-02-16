@@ -10,24 +10,20 @@
     {
       "source": "/",
       "destination": "/App/Pages/Menu_D.html"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/App/index.js"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "App/index.js"
-    },
-    {
-      "src": "/Image/(.*)",
-      "dest": "/App/Assets/Image/$1"
-    },
-    {
-      "src": "/Assets/(.*)",
+      "src": "/App/Assets/(.*)",
       "dest": "/App/Assets/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "App/index.js"
+      "dest": "/App/index.js"
     }
   ]
 }
