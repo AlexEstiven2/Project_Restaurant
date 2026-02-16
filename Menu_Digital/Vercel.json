@@ -10,8 +10,8 @@
     { "src": "/Css/(.*)", "dest": "/App/Assets/Css/$1" },
     { "src": "/JavaScript/(.*)", "dest": "/App/Assets/JavaScript/$1" },
     { "src": "/Image/(.*)", "dest": "/App/Assets/Image/$1" },
-    { "src": "/api/(.*)", "dest": "App/index.js" },
+    { "src": "/api/(.*)", "dest": "/App/index.js" },
     { "src": "/", "dest": "/App/Pages/Menu_D.html" },
-    { "src": "/(.*)", "dest": "App/index.js" }
+    { "src": "/(.*)", "dest": "/App/index.js" }
   ]
 }
