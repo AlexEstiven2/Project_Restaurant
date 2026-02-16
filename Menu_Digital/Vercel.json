@@ -6,6 +6,12 @@
       "use": "@vercel/node"
     }
   ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/App/Pages/Menu_D.html"
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -13,7 +19,7 @@
     },
     {
       "src": "/Image/(.*)",
-      "dest": "/Assets/Image/$1"
+      "dest": "/App/Assets/Image/$1"
     },
     {
       "src": "/(.*)",

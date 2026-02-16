@@ -8,10 +8,12 @@ const MI_IP = "192.168.1.21";
 const PUERTO = "9090";
 const BASE_URL_API = window.location.origin + "/api";
 
+const URL_ADMIN_PRODUCCION = "https://tu-admin-menu.vercel.app";
+
 const BASE_URLS = {
-    categoria: '/Image/Categoria/',
-    subcategoria: '/Image/SubCategoria/',
-    producto: '/Image/Producto/'
+    categoria: `${URL_ADMIN_PRODUCCION}/Image/Categoria/`,
+    subcategoria: `${URL_ADMIN_PRODUCCION}/Image/SubCategoria/`,
+    producto: `${URL_ADMIN_PRODUCCION}/Image/Productos/`
 };
 
 let carrito = [];
