@@ -6,15 +6,12 @@
       "use": "@vercel/node"
     }
   ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/App/index.js" },
-    { "source": "/Css/(.*)", "destination": "/App/Assets/Css/$1" },
-    { "source": "/JavaScript/(.*)", "destination": "/App/Assets/JavaScript/$1" },
-    { "source": "/Image/(.*)", "destination": "/App/Assets/Image/$1" },
-    { "source": "/", "destination": "/App/Pages/Menu_D.html" }
-  ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/App/index.js" }
+    { "src": "/Css/(.*)", "dest": "/App/Assets/Css/$1" },
+    { "src": "/JavaScript/(.*)", "dest": "/App/Assets/JavaScript/$1" },
+    { "src": "/Image/(.*)", "dest": "/App/Assets/Image/$1" },
+    { "src": "/api/(.*)", "dest": "App/index.js" },
+    { "src": "/", "dest": "/App/Pages/Menu_D.html" },
+    { "src": "/(.*)", "dest": "App/index.js" }
   ]
 }
