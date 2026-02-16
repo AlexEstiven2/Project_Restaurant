@@ -7,23 +7,14 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/",
-      "destination": "/App/Pages/Menu_D.html"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/App/index.js"
-    }
+    { "source": "/", "destination": "/App/Pages/Menu_D.html" },
+    { "source": "/api/(.*)", "destination": "/App/index.js" },
+    { "source": "/Css/(.*)", "destination": "/App/Assets/Css/$1" },
+    { "source": "/JavaScript/(.*)", "destination": "/App/Assets/JavaScript/$1" },
+    { "source": "/Image/(.*)", "destination": "/App/Assets/Image/$1" }
   ],
   "routes": [
-    {
-      "src": "/App/Assets/(.*)",
-      "dest": "/App/Assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/App/index.js"
-    }
+    { "src": "/App/Assets/(.*)", "dest": "/App/Assets/$1" },
+    { "src": "/(.*)", "dest": "/App/index.js" }
   ]
 }
