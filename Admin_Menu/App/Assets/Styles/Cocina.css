@@ -1,0 +1,228 @@
+/* ==========================================================================
+   1. LAYOUT BASE (Sidebar & Main Content) - NO TOCAR
+   ========================================================================== */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 85px;
+    --sidebar-bg: #121212;
+    /* Un negro más profundo */
+    --transition-speed: 0.4s;
+    --accent-color: #ffc107;
+
+}
+
+body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    background-color: var(--sidebar-bg) !important;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* Quitamos el radio exagerado para un look más industrial/moderno */
+    border-radius: 0;
+}
+
+#sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+}
+
+/* Ajuste del contenido principal */
+#main-content {
+    margin-left: var(--sidebar-width);
+    transition: all var(--transition-speed) ease;
+}
+
+#main-content.expanded {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Nav Links Mejorados */
+.nav-link {
+    transition: all 0.3s ease;
+    padding: 12px 15px !important;
+    margin: 4px 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.08) !important;
+    color: var(--accent-color) !important;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.2), transparent) !important;
+    border-left: 3px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* Estado Colapsado */
+#sidebar.collapsed .nav-text,
+#sidebar.collapsed .logo-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+}
+
+#sidebar.collapsed .nav-link {
+    justify-content: center;
+    margin: 4px 15px;
+}
+
+#sidebar.collapsed .nav-link i {
+    margin: 0 !important;
+}
+
+/* Reducimos el espaciado de la cabecera */
+.sidebar-header {
+    padding: 1.5rem 1.2rem !important; /* Más compacto arriba */
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reducimos el tamaño de los enlaces para que quepan más */
+#sidebar .nav-link {
+    padding: 8px 12px !important; /* Antes era 12px o 15px */
+    margin: 2px 8px !important;    /* Margen mínimo para ganar altura */
+    font-size: 0.9rem;             /* Fuente un poco más pequeña y profesional */
+}
+
+#sidebar .nav-link i {
+    font-size: 1.1rem;             /* Iconos ligeramente más pequeños */
+    min-width: 25px;
+}
+
+/* Ajustamos los separadores (Gestión, Admin) */
+.text-uppercase.small {
+    margin-top: 1rem !important;    /* Menos espacio entre secciones */
+    margin-bottom: 0.3rem !important;
+    font-size: 0.6rem !important;   /* Etiquetas más discretas */
+}
+
+/* El botón de cerrar sesión más delgado */
+#sidebar .btn-outline-danger {
+    padding: 6px !important;
+    font-size: 0.85rem;
+}
+
+/* Ajuste para pantallas pequeñas (Laptops) */
+@media (max-height: 750px) {
+    #sidebar .nav-link { padding: 6px 10px !important; }
+    .sidebar-header { padding: 1rem !important; }
+}
+/* --- ESTILOS ESPECÍFICOS DEL MONITOR DE COCINA --- */
+
+/* Tarjeta de Comanda */
+.card-comanda {
+    border-radius: 20px;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-comanda:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Estados de Alerta */
+.bg-light-danger {
+    background-color: #fff5f5 !important;
+}
+
+/* Animación de parpadeo para pedidos con más de 15 min */
+.alerta-critica {
+    border: 3px solid var(--danger-red) !important;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+/* Elementos de la lista (Platos) */
+.list-group-item {
+    border: none;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1.2rem;
+}
+
+/* Botones Grandes para Cocina */
+.btn-lg {
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    letter-spacing: 1px;
+}
+
+/* Reloj del Monitor */
+#reloj {
+    color: #333;
+    font-family: 'Courier New', Courier, monospace;
+    background: white;
+    padding: 5px 15px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Estilos de scroll para la lista de items si es muy larga */
+.card-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Sidebar nav links */
+.nav-link i { width: 25px; text-align: center; }
+.nav-link.active i { color: var(--balcony-yellow); }
+.nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+    color: var(--balcony-yellow) !important;
+}
+
+
+
+/* Estilo para las sugerencias del cliente en la comanda */
+.nota-cliente {
+    background-color: #fff3cd; /* Amarillo suave tipo post-it */
+    color: #856404;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-style: italic;
+    border-left: 4px solid #ffc107;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+/* Animación para pedidos críticos (opcional) */
+.alerta-critica {
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}

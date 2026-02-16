@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Icon-->
+    <link rel="icon" href="/Image/Logos/favicon.ico">
+    <!--Title-->
+    <title>Menu_Digital</title>
+    <!--Css-->
+    <link rel="stylesheet" href="/Css/Menu_D.css">
+    <!--Boostraps-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body class="Fondo">
+    <div class="d-flex flex-column min-vh-100">
+
+        <nav class="navbar">
+            <div class="container d-flex justify-content-center">
+                <a class="navbar-brand" href="#">
+                    <img src="/Image/Logos/Logo Balcony 3.0.png" class="logo-navbar" alt="" width="70" height="64">
+                </a>
+            </div>
+        </nav>
+        <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="0"
+                    class="active"></button>
+                <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="2"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/Image/Carrusel/Primera.jpg" class="d-block w-100 carrusel-img" alt="Promoción 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="/Image/Carrusel/Segunda.jpg" class="d-block w-100 carrusel-img" alt="Promoción 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="/Image/Carrusel/Tercera.jpg" class="d-block w-100 carrusel-img" alt="Promoción 3">
+                </div>
+            </div>
+        </div>
+        <div class="row general text-white m-0">
+            <div class="col-md-12 text-center pt-2 pb-2">
+                <strong>Categorías</strong>
+            </div>
+        </div>
+        <section class="categoria-carousel px-3 py-4">
+            <div class="scroll-categorias d-flex flex-nowrap overflow-auto">
+            </div>
+        </section>
+        <section id="subcategorias" class="d-none px-3 py-4">
+            <div id="subcategoria-lista" class="d-flex flex-nowrap overflow-auto"></div>
+        </section>
+        <section id="productos" class="row justify-content-center d-none px-3 py-4"></section>
+        <main class="flex-grow-1 container">
+            <div class="row mt-4">
+                <div class="col-12">
+                    <p class="text-center">
+                        Precios en Pesos Colombianos. IVA incluido.
+                    </p>
+                </div>
+            </div>
+            <button id="btnFinalizarVisita" class="btn btn-amarillo-balcony w-100 mt-3 rounded-pill fw-bold">
+                <i class="bi bi-receipt"></i> Solicitar Cuenta / Salir
+            </button>
+        </main>
+
+        <footer class="footer mt-auto py-4">
+            <div class="container text-center">
+                <p class="mb-2">
+                    <small class="text-uppercase fw-bold" style="letter-spacing: 2px;">Bienvenidos a Balcony</small>
+                </p>
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <span class="text-muted small">© 2026 Balcony Digital Menu</span>
+                    <a href="#">
+                        <img src="/Image/Logos/favicon-32x32.png" height="24" alt="Icono Balcony">
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <button id="btn-mi-pedido" class="btn-mi-pedido">
+        <i class="bi bi-receipt"></i>
+    </button>
+    <button id="btn-mesero" class="btn-mesero" data-bs-toggle="modal" data-bs-target="#callWaiterModal">
+        🙋
+    </button>
+    <button id="btn-carrito" class="btn-carrito">
+        <i class="bi bi-cart3"></i>
+        <span id="carrito-count" class="badge-carrito d-none">0</span>
+    </button>
+
+    <div class="modal fade" id="modalDetalleProducto" tabindex="-1" aria-labelledby="modalDetalleProductoLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fs-4 fw-bold" id="modalDetalleProductoLabel">Detalle del Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="modalDetalleContenido">
+                </div>
+                <div class="modal-footer border-0 justify-content-end gap-2">
+                    <button class="btn btn-negro-balcony px-4" data-bs-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-amarillo-balcony px-4" id="btnAgregarDesdeModal">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="modalCarritoLabel">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fs-4 fw-bold" id="modalCarritoLabel">Carrito de Compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="carritoContenido">
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-between align-items-center flex-wrap">
+                    <strong class="fs-5">Total: $<span id="totalCarrito">0</span></strong>
+                    <div class="d-flex gap-2 mt-2 mt-md-0">
+                        <button type="button" class="btn btn-negro-balcony px-4" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-amarillo-balcony px-4" id="btnRealizarPedido">Realizar
+                            pedido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="callWaiterModal" tabindex="-1" aria-labelledby="callWaiterLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="callWaiterLabel">¿Deseas llamar al mesero?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    Un mesero será notificado y se acercará a tu mesa.
+                </div>
+                <div class="modal-footer d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-negro-balcony px-4" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-amarillo-balcony px-4" id="confirmCallWaiter">Sí,
+                        llamar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHistorial" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Mi Pedido - Mesa <span id="mesa-historial-title"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="historial-contenido">
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>Total Acumulado:</span>
+                        <span id="total-historial" class="text-success">$0</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-negro-balcony w-100 py-2" data-bs-dismiss="modal">
+                        Seguir pidiendo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalFeedback" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body text-center p-5">
+                    <img src="/Image/Logos/Logo Balcony 3.0.png" width="100" class="mb-4">
+                    <h2 class="fw-bold">¡Gracias por tu visita!</h2>
+                    <p class="text-muted">¿Cómo calificarías nuestro servicio hoy?</p>
+
+                    <div class="stars fs-1 my-4" style="color: #ffc107; cursor: pointer;">
+                        <i class="bi bi-star star-item" data-value="1"></i>
+                        <i class="bi bi-star star-item" data-value="2"></i>
+                        <i class="bi bi-star star-item" data-value="3"></i>
+                        <i class="bi bi-star star-item" data-value="4"></i>
+                        <i class="bi bi-star star-item" data-value="5"></i>
+                    </div>
+
+                    <div id="mensaje-estrellas" class="mb-3 fw-bold text-secondary"></div>
+
+                    <textarea id="comentarioFeedback" class="form-control mb-4 border-light bg-light"
+                        placeholder="¿Alguna sugerencia para mejorar?" rows="3"></textarea>
+
+                    <button class="btn btn-amarillo-balcony w-100 py-3 rounded-pill fw-bold shadow-sm"
+                        id="btnEnviarFeedback">
+                        Enviar y Finalizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Boostraps-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <!--Alerts sweelaler2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JavaScript Menu-->
+    <script src="/JavaScript/Menu_D.js"></script>
+</body>
+
+</html>

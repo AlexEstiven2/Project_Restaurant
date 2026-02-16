@@ -1,0 +1,419 @@
+/* ==========================================================================
+   1. LAYOUT BASE (Sidebar & Main Content) - NO TOCAR
+   ========================================================================== */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 85px;
+    --sidebar-bg: #121212;
+    /* Un negro más profundo */
+    --transition-speed: 0.4s;
+    --accent-color: #ffc107;
+
+}
+
+body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    background-color: var(--sidebar-bg) !important;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* Quitamos el radio exagerado para un look más industrial/moderno */
+    border-radius: 0;
+}
+
+#sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+}
+
+/* Ajuste del contenido principal */
+#main-content {
+    margin-left: var(--sidebar-width);
+    transition: all var(--transition-speed) ease;
+}
+
+#main-content.expanded {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Nav Links Mejorados */
+.nav-link {
+    transition: all 0.3s ease;
+    padding: 12px 15px !important;
+    margin: 4px 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.08) !important;
+    color: var(--accent-color) !important;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.2), transparent) !important;
+    border-left: 3px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* Estado Colapsado */
+#sidebar.collapsed .nav-text,
+#sidebar.collapsed .logo-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+}
+
+#sidebar.collapsed .nav-link {
+    justify-content: center;
+    margin: 4px 15px;
+}
+
+#sidebar.collapsed .nav-link i {
+    margin: 0 !important;
+}
+
+/* Reducimos el espaciado de la cabecera */
+.sidebar-header {
+    padding: 1.5rem 1.2rem !important; /* Más compacto arriba */
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reducimos el tamaño de los enlaces para que quepan más */
+#sidebar .nav-link {
+    padding: 8px 12px !important; /* Antes era 12px o 15px */
+    margin: 2px 8px !important;    /* Margen mínimo para ganar altura */
+    font-size: 0.9rem;             /* Fuente un poco más pequeña y profesional */
+}
+
+#sidebar .nav-link i {
+    font-size: 1.1rem;             /* Iconos ligeramente más pequeños */
+    min-width: 25px;
+}
+
+/* Ajustamos los separadores (Gestión, Admin) */
+.text-uppercase.small {
+    margin-top: 1rem !important;    /* Menos espacio entre secciones */
+    margin-bottom: 0.3rem !important;
+    font-size: 0.6rem !important;   /* Etiquetas más discretas */
+}
+
+/* El botón de cerrar sesión más delgado */
+#sidebar .btn-outline-danger {
+    padding: 6px !important;
+    font-size: 0.85rem;
+}
+
+/* Ajuste para pantallas pequeñas (Laptops) */ 
+@media (max-height: 750px) {
+    #sidebar .nav-link { padding: 6px 10px !important; }
+    .sidebar-header { padding: 1rem !important; }
+}
+
+/*Mesas*/
+
+/* Contenedor de la mesa */
+.mesa-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 2px solid transparent;
+    min-height: 150px;
+}
+
+.mesa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.mesa-main-icon {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.mesa-number {
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.mesa-badge {
+    position: absolute;
+    top: 10px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+/* Colores de estados */
+.mesa-disponible { border-bottom: 5px solid #198754; color: #198754; }
+.mesa-disponible .mesa-badge { background: #d1e7dd; color: #0f5132; }
+
+.mesa-ocupada { border-bottom: 5px solid #dc3545; color: #dc3545; }
+.mesa-ocupada .mesa-badge { background: #f8d7da; color: #842029; }
+
+.mesa-pagando { border-bottom: 5px solid #ffc107; color: #856404; }
+.mesa-pagando .mesa-badge { background: #fff3cd; color: #856404; }
+
+.mesa-card { position: relative; }
+
+.mesa-admin-tools {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+}
+
+.btn-tool {
+    border: none;
+    background: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.2s;
+}
+
+.btn-tool.edit:hover { background: #ffc107; color: white; }
+.btn-tool.delete:hover { background: #dc3545; color: white; }
+
+.mesa-content {
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+}
+
+/* Color amarillo para la solicitud de cuenta */
+.mesa-solicitando-cuenta {
+    background-color: #ffc107 !important;
+    border: 2px solid #e5a500 !important;
+    animation: parpadeo-alerta 1.5s infinite;
+    color: #000 !important;
+}
+
+.mesa-solicitando-cuenta .mesa-badge {
+    background-color: #000 !important;
+    color: #ffc107 !important;
+}
+
+/* Animación de parpadeo suave */
+@keyframes parpadeo-alerta {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 193, 7, 0); }
+    50% { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 193, 7, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 193, 7, 0); }
+}
+
+/* Clase para cuando la mesa necesita atención */
+.mesa-llamando-mesero {
+    background-color: #00bcd4 !important; /* Azul Cian */
+    color: white;
+    border: 2px solid #00838f;
+    animation: flash-animation 1.5s infinite;
+}
+
+@keyframes flash-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Estado: Esperando Pedido (Violeta/Morado) */
+/* Color Morado para la mesa esperando comida */
+.mesa-esperando-pedido {
+    background-color: #6f42c1 !important; /* Morado Balcony */
+    border: 3px solid #5a32a3 !important;
+    color: white !important;
+    animation: pulse-morado 2s infinite;
+}
+
+.mesa-esperando-pedido .mesa-badge {
+    background-color: #fff;
+    color: #6f42c1;
+}
+
+@keyframes pulse-morado {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(111, 66, 193, 0.7); }
+    70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(111, 66, 193, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(111, 66, 193, 0); }
+}
+
+/* Color para cuando el pedido acaba de llegar a la mesa */
+.mesa-card.mesa-recibido {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
+    animation: pulse-blue 2s infinite;
+}
+
+@keyframes pulse-blue {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(79, 172, 254, 0.8); }
+    100% { transform: scale(1); }
+}
+
+/* Estado: PAGANDO (Cuando piden la cuenta) */
+.mesa-pagando { 
+    border-bottom: 5px solid #ffc107; 
+    color: #856404; 
+    background-color: #fff3cd !important;
+}
+.mesa-pagando .mesa-badge { background: #ffc107; color: #fff; }
+
+/* Estado: PAGADO (Naranja - Cuando el cliente ya calificó y finalizó) */
+.mesa-pagado {
+    background-color: #f5710c !important; /* El color de tu HTML */
+    border: 3px solid #d45d06 !important;
+    color: white !important;
+    animation: pulse-pagado 2s infinite;
+}
+
+.mesa-pagado .mesa-badge {
+    background-color: #fff;
+    color: #f5710c;
+}
+
+@keyframes pulse-pagado {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   NUEVO ESTILO PARA EL MODAL DE DETALLES (SWEETALERT / MODAL)
+   ========================================================================== */
+
+/* 1. Contenedor principal del Modal */
+.swal2-popup.swal2-modal {
+    border-radius: 25px !important; /* Bordes redondeados consistentes con tus mesas */
+    padding: 1.5rem !important;
+    border: none !important;
+}
+
+/* 2. Título del Modal */
+.swal2-title {
+    font-weight: 800 !important;
+    font-size: 1.6rem !important;
+    color: #212529 !important;
+    letter-spacing: -0.5px;
+    padding-top: 10px !important;
+}
+
+/* 3. Estilo de la Tabla de Pedidos (Efecto Factura) */
+.swal2-html-container table {
+    border: none !important;
+    border-radius: 15px !important;
+    overflow: hidden;
+    margin-top: 15px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.swal2-html-container thead.table-light {
+    background-color: #f8f9fa !important;
+}
+
+.swal2-html-container th {
+    text-transform: uppercase;
+    font-size: 0.7rem !important;
+    letter-spacing: 1px;
+    color: #6c757d !important;
+    padding: 12px !important;
+    border: none !important;
+}
+
+.swal2-html-container td {
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+    border-bottom: 1px solid #f1f3f5 !important;
+    vertical-align: middle;
+}
+
+/* 4. Fila de Total */
+.table-warning {
+    background-color: #fffdf5 !important;
+    color: #212529 !important;
+}
+
+.table-warning th, .table-warning td {
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    border-top: 2px solid #ffc107 !important;
+}
+
+/* 5. Botonera de Cambio Manual */
+.bg-light.rounded-3.border {
+    background-color: #f8f9fa !important;
+    border: 1px dashed #dee2e6 !important;
+    padding: 15px !important;
+    border-radius: 18px !important;
+}
+
+.bg-light.rounded-3.border small {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #adb5bd;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* 6. Botones del SweetAlert (Liberar, Factura, Cerrar) */
+.swal2-confirm, .swal2-deny, .swal2-cancel {
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    padding: 10px 24px !important;
+    transition: all 0.3s ease !important;
+}
+
+.swal2-confirm:hover, .swal2-deny:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* 7. Scrollbar personalizada para el contenido del modal */
+.swal2-html-container div[style*="max-height"]::-webkit-scrollbar {
+    width: 6px;
+}
+
+.swal2-html-container div[style*="max-height"]::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 10px;
+}
+
+/* 8. Badge de Estado dentro del modal */
+.badge.bg-dark.text-warning {
+    background-color: #212529 !important;
+    color: #ffc107 !important;
+    border-radius: 8px;
+    font-weight: 800;
+    padding: 8px 15px !important;
+}

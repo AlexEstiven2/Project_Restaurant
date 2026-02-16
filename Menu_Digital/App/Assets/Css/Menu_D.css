@@ -1,0 +1,328 @@
+/* ==========================================================================
+   1. ESTILOS BASE Y FONDO
+   ========================================================================== */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+.Fondo { 
+    background-color: #fbfbfb; 
+    min-height: 100vh; 
+}
+
+.general { 
+    background-color: black; 
+}
+
+/* ==========================================================================
+   2. NAVBAR Y CARRUSEL
+   ========================================================================== */
+.navbar { 
+    background-color: #000000; 
+    padding: 1rem 0; 
+}
+
+.logo-navbar { 
+    height: 70px; 
+    width: auto; 
+    display: block; 
+    margin: 0 auto; 
+}
+
+.carousel-inner { 
+    height: 50vh; 
+    min-height: 250px; 
+    background-color: #000; 
+}
+
+.carrusel-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* ==========================================================================
+   3. CATEGORIAS Y SUBCATEGORIAS (SCROLL LATERAL CORREGIDO)
+   ========================================================================== */
+.categoria-carousel {
+    background-color: #fff; /* Fondo blanco para que resalten los botones */
+    border-bottom: 1px solid #eee;
+}
+
+.scroll-categorias, #subcategoria-lista { 
+    display: flex; 
+    flex-wrap: nowrap; /* Fuerza a que no bajen a la siguiente línea */
+    overflow-x: auto; /* Habilita el scroll horizontal */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    gap: 15px; /* Espacio entre botones */
+    padding: 10px 5px;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+}
+
+.scroll-categorias::-webkit-scrollbar, 
+#subcategoria-lista::-webkit-scrollbar { 
+    display: none; /* Oculta scrollbar en Chrome/Safari */
+}
+
+.categoria-item {
+    border: none; 
+    background: transparent; 
+    flex: 0 0 auto; /* Importante: evita que el botón se encoja */
+    width: 100px; /* Tamaño un poco más compacto para móviles */
+    height: 100px; 
+    border-radius: 50%; /* Categorías circulares */
+    overflow: hidden;
+    padding: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.categoria-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: 0.3s; 
+}
+
+/* Ajuste para subcategorías */
+.subcategoria-item { 
+    border: none; 
+    background: transparent; 
+    width: 120px; /* Un poco más ancho para legibilidad */
+    cursor: pointer; 
+    flex: 0 0 auto;
+    padding: 5px;
+    transition: transform 0.2s ease;
+}
+
+.subcategoria-item:active {
+    transform: scale(0.95); /* Efecto de pulsación al tocar */
+}
+
+.subcategoria-img-container {
+    width: 100%; 
+    height: 120px; 
+    border-radius: 20px; /* Bordes muy redondeados modernos */
+    overflow: hidden; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* Sombra suave */
+    position: relative;
+    border: 1px solid rgba(255, 193, 7, 0.2); /* Borde sutil amarillo Balcony */
+}
+
+.subcategoria-img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* Etiqueta de texto sobre la imagen */
+.subcategoria-label {
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    text-align: center;
+    /* Gradiente oscuro para que el texto blanco resalte */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+    color: white; 
+    font-size: 0.8rem; 
+    padding: 12px 5px 5px 5px; 
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* Scroll lateral mejorado para ambos */
+.scroll-categorias, #subcategoria-lista { 
+    display: flex; 
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
+    gap: 15px; 
+    padding: 15px 10px;
+    scrollbar-width: none; 
+}
+
+.scroll-categorias::-webkit-scrollbar, 
+#subcategoria-lista::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* ==========================================================================
+   4. PRODUCTOS (ESTILO LISTA)
+   ========================================================================== */
+.producto-item { 
+    border-radius: 12px; 
+    background: #fff; 
+    display: flex; 
+    align-items: center;
+    padding: 10px; 
+    border: 1px solid #f2d36d !important; 
+    margin-bottom: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05); 
+    cursor: pointer;
+}
+
+.producto-img { 
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+}
+
+.producto-agotado { 
+    filter: grayscale(100%); 
+    opacity: 0.5; 
+    pointer-events: none; 
+}
+
+/* ==========================================================================
+   5. MODALES Y FORMULARIOS
+   ========================================================================== */
+.modal-content {
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+}
+
+.form-control { 
+    border-radius: 12px !important; 
+    background: #f8f9fa; 
+}
+
+/* ==========================================================================
+   6. BOTONES FLOTANTES (INTERFAZ)
+   ========================================================================== */
+.btn-carrito, .btn-mesero, .btn-mi-pedido {
+    position: fixed !important; 
+    right: 20px; 
+    width: 60px; 
+    height: 60px;
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 24px; 
+    border: none; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+    z-index: 2000;
+}
+
+.btn-mi-pedido { bottom: 180px; background: #212529; color: white; }
+.btn-mesero { bottom: 100px; background: #212529; color: white; }
+.btn-carrito { bottom: 20px; background: #ffc107; color: black; }
+
+.badge-carrito {
+    position: absolute; 
+    top: -2px; 
+    right: -2px; 
+    background: #dc3545;
+    color: white; 
+    border-radius: 50%; 
+    font-size: 12px; 
+    min-width: 22px;
+    height: 22px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border: 2px solid white;
+}
+
+/* ==========================================================================
+   7. BOTONES DE ACCIÓN (CORRECCIÓN FUERTE DE COLORES)
+   ========================================================================== */
+
+/* FUERZA EL BOTÓN AMARILLO (BALCONY PRIMARY) */
+.btn.btn-amarillo-balcony, 
+button.btn-amarillo-balcony,
+.modal-footer .btn-amarillo-balcony {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+    border: 2px solid #ffc107 !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+}
+
+/* FUERZA EL BOTÓN NEGRO (BALCONY SECONDARY) */
+.btn.btn-negro-balcony, 
+button.btn-negro-balcony,
+.modal-footer .btn-negro-balcony {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
+    opacity: 1 !important;
+    display: inline-block !important;
+    text-transform: uppercase;
+}
+
+/* ESTADOS HOVER PARA EVITAR QUE BOOTSTRAP LOS VUELVA BLANCOS */
+.btn-amarillo-balcony:hover {
+    background-color: #e5ac00 !important;
+    color: #000000 !important;
+    border-color: #e5ac00 !important;
+    transform: translateY(-1px);
+}
+
+.btn-negro-balcony:hover {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+    border-color: #222222 !important;
+}
+
+/* Espaciado en modales */
+.modal-footer .btn {
+    min-width: 130px;
+}
+
+/* ==========================================================================
+   8. SWEETALERT2 OVERRIDE (ALERTAS)
+   ========================================================================== */
+.swal2-popup { 
+    border-radius: 20px !important; 
+}
+
+/* Estos colores se aplican si usas el estilo por defecto de Swal */
+.swal2-confirm { 
+    background-color: #ffc107 !important; 
+    color: #000000 !important; 
+    border-radius: 12px !important; 
+    font-weight: bold !important;
+}
+
+.swal2-cancel { 
+    background-color: #000000 !important; 
+    color: #ffffff !important; 
+    border-radius: 12px !important; 
+    font-weight: bold !important;
+}
+
+/* ==========================================================================
+   9. FOOTER (PIE DE PÁGINA NEGRO)
+   ========================================================================== */
+.footer {
+    background-color: #000000 !important; /* Color negro pedido */
+    border-top: 2px solid #ffc107; /* Línea decorativa amarilla opcional */
+    color: white;
+}
+
+.footer a img {
+    filter: brightness(0) invert(1); /* Si el icono es negro, lo vuelve blanco */
+    margin-left: 8px;
+    transition: 0.3s;
+}
+
+.footer a img:hover {
+    transform: scale(1.1);
+}
+
+.btnFinalizarVisita{
+    padding: 10%;
+}

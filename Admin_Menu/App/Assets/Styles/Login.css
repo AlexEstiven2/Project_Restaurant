@@ -1,0 +1,100 @@
+/* Importación de fuente moderna */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Fondo con gradiente y un patrón sutil */
+    background: radial-gradient(circle at top right, #333, #000);
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+/* Efecto de luces de fondo para dar profundidad */
+body::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 193, 7, 0.05);
+    border-radius: 50%;
+    top: 10%;
+    left: 10%;
+    filter: blur(80px);
+    z-index: -1;
+}
+
+.container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4) !important;
+}
+
+/* Estilo de los Inputs */
+.input-group-text {
+    background-color: transparent !important;
+    border-right: none !important;
+    color: #ffc107 !important; /* Iconos amarillos */
+    padding-left: 1.2rem;
+}
+
+.form-control {
+    border-left: none !important;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    background-color: #fff;
+}
+
+.input-group:focus-within {
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15);
+    border-radius: 0.5rem;
+}
+
+/* Botón Estilo Balcony */
+.btn-dark {
+    background: #000 !important;
+    border: none;
+    padding: 0.8rem !important;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.btn-dark:hover {
+    background: #ffc107 !important;
+    color: #000 !important;
+    transform: scale(1.02);
+}
+
+/* Título */
+.text-warning {
+    color: #ffc107 !important;
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .card {
+        margin: 0 15px;
+        padding: 10px;
+    }
+}

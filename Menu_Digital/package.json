@@ -1,0 +1,26 @@
+{
+  "name": "menu-digital",
+  "version": "1.0.0",
+  "main": "App/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon App/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.14.0",
+    "sequelize": "^6.37.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
