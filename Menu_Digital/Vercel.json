@@ -14,4 +14,4 @@
     { "src": "/", "dest": "/App/Pages/Menu_D.html" },
     { "src": "/(.*)", "dest": "/App/index.js" }
   ]
-}
+} 
