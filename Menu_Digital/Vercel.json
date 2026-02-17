@@ -7,11 +7,11 @@
     }
   ],
   "routes": [
-    { "src": "/Css/(.*)", "dest": "/Assets/Css/$1" },
-    { "src": "/JavaScript/(.*)", "dest": "/Assets/JavaScript/$1" },
-    { "src": "/Image/(.*)", "dest": "/Assets/Image/$1" },
-    { "src": "/api/(.*)", "dest": "/index.js" },
-    { "src": "/", "dest": "/Pages/Menu_D.html" },
-    { "src": "/(.*)", "dest": "/index.js" }
+    { "src": "/Css/(.*)", "dest": "Menu_Digital/App/Assets/Css/$1" },
+    { "src": "/JavaScript/(.*)", "dest": "Menu_Digital/App/Assets/JavaScript/$1" },
+    { "src": "/Image/(.*)", "dest": "Menu_Digital/App/Assets/Image/$1" },
+    { "src": "/api/(.*)", "dest": "Menu_Digital/App/index.js" },
+    { "src": "/", "dest": "Menu_Digital/App/Pages/Menu_D.html" },
+    { "src": "/(.*)", "dest": "Menu_Digital/App/index.js" }
   ]
 }
