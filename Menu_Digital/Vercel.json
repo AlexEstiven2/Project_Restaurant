@@ -2,16 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "App/index.js",
+      "src": "index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
-    { "src": "/Css/(.*)", "dest": "/App/Assets/Css/$1" },
-    { "src": "/JavaScript/(.*)", "dest": "/App/Assets/JavaScript/$1" },
-    { "src": "/Image/(.*)", "dest": "/App/Assets/Image/$1" },
-    { "src": "/api/(.*)", "dest": "/App/index.js" },
-    { "src": "/", "dest": "/App/Pages/Menu_D.html" },
-    { "src": "/(.*)", "dest": "/App/index.js" }
+    { "src": "/Css/(.*)", "dest": "/Assets/Css/$1" },
+    { "src": "/JavaScript/(.*)", "dest": "/Assets/JavaScript/$1" },
+    { "src": "/Image/(.*)", "dest": "/Assets/Image/$1" },
+    { "src": "/api/(.*)", "dest": "/index.js" },
+    { "src": "/", "dest": "/Pages/Menu_D.html" },
+    { "src": "/(.*)", "dest": "/index.js" }
   ]
 }
