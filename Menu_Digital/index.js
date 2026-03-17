@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression"; 
-import routes from "./App/Config/routes.js";
-import { sequelize, conectarDB } from "./App/Config/database.js";
+import routes from "./Config/routes.js";
+import { sequelize, conectarDB } from "./Config/database.js";
 
 // Inicializar entorno
 dotenv.config();
@@ -36,20 +36,15 @@ const cacheOptions = {
 };
 
 // 1. Assets locales (Ruta crucial para Vercel)
-// Usamos path.resolve para garantizar la ruta absoluta correcta
-app.use("/Assets", express.static(path.join(__dirname, "Assets")));
+app.use("/Assets", express.static(path.join(__dirname, "App", "Assets")));
+app.use('/Image/Logos', express.static(path.join(__dirname, "App", "Assets", "Image", "Logos")));
 
-// 2. Imágenes (Si las tienes dentro de Assets/Image en este mismo proyecto)
-app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Logos")));
-
-// Nota: Las rutas hacia "../../Admin_Menu" no funcionarán en Vercel 
-// a menos que ese proyecto también esté en el mismo repositorio subido.
 
 /* --- NAVEGACIÓN --- */
 
 app.get("/", (req, res) => {
-    // __dirname aquí es /App
-    res.sendFile(path.join(__dirname, "Pages", "Menu_D.html"));
+    // Agregamos "App" para encontrar la carpeta Pages
+    res.sendFile(path.join(__dirname, "App", "Pages", "Menu_D.html"));
 });
 
 /* --- API --- */
