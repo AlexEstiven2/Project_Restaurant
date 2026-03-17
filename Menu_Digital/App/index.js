@@ -48,7 +48,8 @@ app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Log
 /* --- NAVEGACIÓN --- */
 
 app.get("/", (req, res) => {
-    res.send("<h1>El servidor está vivo</h1>");
+    // __dirname aquí es /App
+    res.sendFile(path.join(__dirname, "Pages", "Menu_D.html"));
 });
 
 /* --- API --- */
@@ -60,16 +61,23 @@ app.use((req, res) => {
 });
 
 /* --- INICIO DEL SERVIDOR --- */
-// En Vercel, no llamamos a app.listen() de la misma forma que local, 
-// pero dejamos esta estructura para que funcione en ambos entornos.
-conectarDB().then(() => {
-    if (process.env.NODE_ENV !== 'production') {
-        app.listen(PORT, () => {
-            console.log(`🚀 Servidor listo en: http://localhost:${PORT}`);
-        });
+const startServer = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log("✅ Conexión a Railway establecida");
+        
+        // IMPORTANTE: En Vercel no es necesario app.listen, 
+        // pero para que funcione en ambos lados:
+        if (process.env.NODE_ENV !== 'production') {
+            app.listen(PORT, () => {
+                console.log(`🚀 Servidor en http://localhost:${PORT}`);
+            });
+        }
+    } catch (error) {
+        console.error("❌ Error crítico:", error);
     }
-}).catch(err => {
-    console.error("❌ Error al iniciar:", err);
-});
+};
+
+startServer();
 
 export default app;

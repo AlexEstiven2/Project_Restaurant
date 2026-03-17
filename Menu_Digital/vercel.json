@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "project-restaurant",
   "builds": [
     {
       "src": "App/index.js",
@@ -7,7 +8,9 @@
     }
   ],
   "routes": [
-    { "src": "/Assets/(.*)", "dest": "/App/Assets/$1" },
-    { "src": "/(.*)", "dest": "App/index.js" }
+    {
+      "src": "/(.*)",
+      "dest": "/App/index.js"
+    }
   ]
 }
