@@ -38,7 +38,7 @@ const cacheOptions = {
 };
 
 // 1. Assets locales (CSS, JS)
-app.use(express.static(path.join(__dirname, "Assets"), { maxAge: '1h' })); 
+app.use("/Assets", express.static(path.join(__dirname, "Assets"), { maxAge: '1h' })); 
 
 // 2. Imágenes compartidas desde el Administrador
 const baseAdminPath = path.join(__dirname, "../../Admin_Menu/App/Assets/Image");
