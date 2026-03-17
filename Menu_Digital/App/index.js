@@ -37,7 +37,7 @@ const cacheOptions = {
 
 // 1. Assets locales (Ruta crucial para Vercel)
 // Usamos path.resolve para garantizar la ruta absoluta correcta
-app.use("/Assets", express.static(path.resolve(__dirname, "Assets"), { maxAge: '1h' })); 
+app.use("/Assets", express.static(path.join(__dirname, "Assets")));
 
 // 2. Imágenes (Si las tienes dentro de Assets/Image en este mismo proyecto)
 app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Logos")));
@@ -48,9 +48,8 @@ app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Log
 /* --- NAVEGACIÓN --- */
 
 app.get("/", (req, res) => {
-    // Intentamos buscarlo en la ruta absoluta de la función
-    const htmlPath = path.resolve(__dirname, "Pages", "Menu_D.html");
-    res.sendFile(htmlPath);
+    // __dirname aquí es /App
+    res.sendFile(path.join(__dirname, "Pages", "Menu_D.html"));
 });
 
 /* --- API --- */

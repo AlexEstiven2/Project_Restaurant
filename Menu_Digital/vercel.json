@@ -6,14 +6,8 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/Assets/(.*)",
-      "dest": "/App/Assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/App/index.js"
-    }
+  "rewrites": [
+    { "source": "/Assets/(.*)", "destination": "/App/Assets/$1" },
+    { "source": "/(.*)", "destination": "/App/index.js" }
   ]
 }
