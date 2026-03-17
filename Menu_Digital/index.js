@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression"; 
-import routes from "./Config/routes.js";
-import { sequelize, conectarDB } from "./Config/database.js";
+import routes from "./App/Config/routes.js";
+import { sequelize, conectarDB } from "./App/Config/database.js";
 
 // Inicializar entorno
 dotenv.config();
