@@ -48,8 +48,7 @@ app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Log
 /* --- NAVEGACIÓN --- */
 
 app.get("/", (req, res) => {
-    // __dirname aquí es /App
-    res.sendFile(path.join(__dirname, "Pages", "Menu_D.html"));
+    res.send("<h1>El servidor está vivo</h1>");
 });
 
 /* --- API --- */
