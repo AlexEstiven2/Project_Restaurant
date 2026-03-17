@@ -47,9 +47,10 @@ app.use('/Image/Logos', express.static(path.resolve(__dirname, "Assets/Image/Log
 
 /* --- NAVEGACIÓN --- */
 
-// Servir el HTML principal en la raíz
 app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "Pages", "Menu_D.html"));
+    // Intentamos buscarlo en la ruta absoluta de la función
+    const htmlPath = path.resolve(__dirname, "Pages", "Menu_D.html");
+    res.sendFile(htmlPath);
 });
 
 /* --- API --- */
