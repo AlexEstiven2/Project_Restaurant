@@ -12,7 +12,7 @@ const Producto = sequelize.define('Producto', {
     IMAGEN: { type: DataTypes.STRING(1000) },
     NOMBRE_PRODUCTO: { type: DataTypes.STRING(300), allowNull: false },
     DESCRIPCION_PRO: { type: DataTypes.STRING(2000) },
-    ESDADO_PRO: { type: DataTypes.ENUM('DISPONIBLE', 'NO DISPONIBLE'), defaultValue: 'DISPONIBLE' },
+    ESTADO_PRO: { type: DataTypes.ENUM('DISPONIBLE', 'NO DISPONIBLE'), defaultValue: 'DISPONIBLE' },
     PRECIO_PRO: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
     ID_SUBCATE: { type: DataTypes.INTEGER, allowNull: false }
 }, {

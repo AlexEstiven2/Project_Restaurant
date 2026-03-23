@@ -121,8 +121,8 @@ function mostrarPlatos(lista) {
                         </div>
                         <p class="text-muted small text-truncate">${p.DESCRIPCION_PRO || 'Sin descripción'}</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="small fw-bold ${p.ESDADO_PRO === 'DISPONIBLE' ? 'text-success' : 'text-danger'}">
-                                <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>${p.ESDADO_PRO}
+                            <span class="small fw-bold ${p.ESTADO_PRO === 'DISPONIBLE' ? 'text-success' : 'text-danger'}">
+                                <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>${p.ESTADO_PRO}
                             </span>
                             <div>
                                 <button class="btn btn-sm text-primary me-2" onclick="prepararEdicion(${p.ID_PRODUCTOS})">
@@ -168,7 +168,7 @@ window.prepararEdicion = (id) => {
         document.getElementById('prodDescripcion').value = p.DESCRIPCION_PRO;
         document.getElementById('prodPrecio').value = p.PRECIO_PRO;
         document.getElementById('prodSubcate').value = p.ID_SUBCATE;
-        document.getElementById('prodEstado').value = p.ESDADO_PRO;
+        document.getElementById('prodEstado').value = p.ESTADO_PRO;
 
         document.querySelector('#modalPlato .modal-title').textContent = "Editar Producto";
         modalPlatoBS.show();

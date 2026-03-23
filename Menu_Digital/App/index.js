@@ -69,7 +69,7 @@ app.use((req, res) => {
 sequelize.authenticate()
     .then(() => {
         app.listen(PORT, '0.0.0.0', () => { // Escucha en toda la red local
-            console.log(`🚀 Servidor listo en red local: http://192.168.1.21:${PORT}`);
+            console.log(`🚀 Servidor listo en red local: http://192.168.1.3:${PORT}`);
         });
     })
     .catch((err) => {

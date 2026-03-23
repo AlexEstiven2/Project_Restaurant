@@ -68,7 +68,7 @@ async function cargarQrMesas() {
         // CONFIGURACIÓN DE RED: 
         //Johan const baseIp = "192.168.1.33";
         //Casa const baseIp = "192.168.1.21";
-        const baseIp = "192.168.1.21";
+        const baseIp = "192.168.1.18";
         const puertoMenu = "9090";
         const baseUrl = `http://${baseIp}:${puertoMenu}`;
 

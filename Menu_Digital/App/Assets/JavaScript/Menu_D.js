@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --- LISTENERS DE INTERFAZ --- */
     document.getElementById('btn-carrito')?.addEventListener('click', () => {
         mostrarCarrito();
-        const modalEl = document.getElementById('modalCarrito');
-        new bootstrap.Modal(modalEl).show();
+        const carritoInstance = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalCarrito'));
+        carritoInstance.toggle();
     });
 
     document.getElementById('btn-mi-pedido')?.addEventListener('click', verHistorial);
@@ -86,6 +86,7 @@ async function llamarMesero() {
         if (res.ok) {
             bootstrap.Modal.getInstance(document.getElementById('callWaiterModal'))?.hide();
             Swal.fire({ title: 'Mesero avisado', icon: 'info', confirmButtonColor: '#ffc107' });
+            
         }
     } catch (e) { console.error("Error:", e); }
 }
@@ -138,7 +139,9 @@ async function verHistorial() {
         }).join('') : '<p class="text-center">No hay pedidos registrados.</p>';
 
         document.getElementById('total-historial').innerText = `$${total.toLocaleString()}`;
-        new bootstrap.Modal(document.getElementById('modalHistorial')).show();
+        const historialInstance = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalHistorial'));
+        historialInstance.toggle();
+        //new bootstrap.Modal(document.getElementById('modalHistorial')).show();
     } catch (e) { console.error("Error historial:", e); }
 }
 

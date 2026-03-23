@@ -39,9 +39,9 @@ export const obtenerProductosPorSub = async (req, res) => {
     try {
         // Seleccionamos solo lo que la App necesita para mostrar en la Card
         const productos = await sequelize.query(
-            `SELECT ID_PRODUCTOS, NOMBRE_PRODUCTO, PRECIO_PRO, IMAGEN, DESCRIPCION_PRO, ESDADO_PRO 
+            `SELECT ID_PRODUCTOS, NOMBRE_PRODUCTO, PRECIO_PRO, IMAGEN, DESCRIPCION_PRO, ESTADO_PRO 
              FROM PRODUCTOS 
-             WHERE ID_SUBCATE = ? AND ESDADO_PRO = 'DISPONIBLE' 
+             WHERE ID_SUBCATE = ? AND ESTADO_PRO = 'DISPONIBLE' 
              ORDER BY NOMBRE_PRODUCTO ASC`, 
             { replacements: [idSub], type: QueryTypes.SELECT }
         );

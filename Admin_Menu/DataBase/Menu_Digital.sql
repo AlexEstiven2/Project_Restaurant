@@ -91,4 +91,4 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
 -- INSERCIÓN DE DATOS INICIALES
 
 INSERT INTO USUARIOS_ADMIN (NOMBRE_USUARIO, CORREO, CONTRASENA, ROL, ESTADO) 
-VALUES ('alex_gerente', 'alexmartinez@balcony.com', 'alexadmin', 'SUPERADMIN', 'ACTIVO');
+VALUES ('alex_gerente', 'alexmartinez@balcony.com', '$2b$10$CdEtuoNVH5TJioyWkV5Gq.CcRoHbp2H1PDQHgqacQzxiBkyZV2uku', 'SUPERADMIN', 'ACTIVO');

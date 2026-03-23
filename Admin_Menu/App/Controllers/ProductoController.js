@@ -25,10 +25,11 @@ export const crearProducto = async (req, res) => {
         const nuevo = await Producto.create({
             NOMBRE_PRODUCTO: nombre, DESCRIPCION_PRO: descripcion,
             PRECIO_PRO: precio, ID_SUBCATE: idSubcate,
-            IMAGEN: imagenRuta, ESDADO_PRO: 'DISPONIBLE'
+            IMAGEN: imagenRuta, ESTADO_PRO: 'DISPONIBLE'
         });
         res.status(201).json(nuevo);
-    } catch (error) { res.status(500).json({ mensaje: 'Error al crear' }); }
+    } catch (error) { res.status(500).json({ mensaje: 'Error al crear' }); 
+    console.log(error)}
 };
 
 export const actualizarProducto = async (req, res) => {
@@ -50,7 +51,7 @@ export const actualizarProducto = async (req, res) => {
         await producto.update({
             NOMBRE_PRODUCTO: nombre, DESCRIPCION_PRO: descripcion,
             PRECIO_PRO: precio, ID_SUBCATE: idSubcate,
-            ESDADO_PRO: estado, IMAGEN: nuevaImagenRuta
+            ESTADO_PRO: estado, IMAGEN: nuevaImagenRuta
         });
         res.json({ mensaje: 'Actualizado' });
     } catch (error) { res.status(500).json({ mensaje: 'Error al actualizar' }); }

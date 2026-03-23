@@ -16,7 +16,7 @@ router.post("/guardar", async (req, res) => {
     try {
         // 1. Insertar en FEEDBACK (usando los nombres de tu SQL real)
         await sequelize.query(
-            "INSERT INTO FEEDBACK (ID_MESA, ESTRELLAS, COMENTARIO, FECHA) VALUES (?, ?, ?, NOW())",
+            "INSERT INTO FEEDBACK (ID_MESA_REF, ESTRELLAS, COMENTARIO, FECHA) VALUES (?, ?, ?, NOW())",
             {
                 replacements: [mesa, estrellas, comentario || null],
                 type: QueryTypes.INSERT,
