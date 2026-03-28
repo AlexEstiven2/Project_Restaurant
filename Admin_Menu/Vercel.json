@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "App/Index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/Image/(.*)",
+      "dest": "App/Assets/Image/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "App/Index.js"
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+/* ==========================================================================
+   1. LAYOUT BASE (Sidebar & Main Content) - NO TOCAR
+   ========================================================================== */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 85px;
+    --sidebar-bg: #121212;
+    /* Un negro más profundo */
+    --transition-speed: 0.4s;
+    --accent-color: #ffc107;
+
+}
+
+body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    background-color: var(--sidebar-bg) !important;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* Quitamos el radio exagerado para un look más industrial/moderno */
+    border-radius: 0;
+}
+
+#sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+}
+
+/* Ajuste del contenido principal */
+#main-content {
+    margin-left: var(--sidebar-width);
+    transition: all var(--transition-speed) ease;
+}
+
+#main-content.expanded {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Nav Links Mejorados */
+.nav-link {
+    transition: all 0.3s ease;
+    padding: 12px 15px !important;
+    margin: 4px 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.08) !important;
+    color: var(--accent-color) !important;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.2), transparent) !important;
+    border-left: 3px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* Estado Colapsado */
+#sidebar.collapsed .nav-text,
+#sidebar.collapsed .logo-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+}
+
+#sidebar.collapsed .nav-link {
+    justify-content: center;
+    margin: 4px 15px;
+}
+
+#sidebar.collapsed .nav-link i {
+    margin: 0 !important;
+}
+
+/* Reducimos el espaciado de la cabecera */
+.sidebar-header {
+    padding: 1.5rem 1.2rem !important; /* Más compacto arriba */
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reducimos el tamaño de los enlaces para que quepan más */
+#sidebar .nav-link {
+    padding: 8px 12px !important; /* Antes era 12px o 15px */
+    margin: 2px 8px !important;    /* Margen mínimo para ganar altura */
+    font-size: 0.9rem;             /* Fuente un poco más pequeña y profesional */
+}
+
+#sidebar .nav-link i {
+    font-size: 1.1rem;             /* Iconos ligeramente más pequeños */
+    min-width: 25px;
+}
+
+/* Ajustamos los separadores (Gestión, Admin) */
+.text-uppercase.small {
+    margin-top: 1rem !important;    /* Menos espacio entre secciones */
+    margin-bottom: 0.3rem !important;
+    font-size: 0.6rem !important;   /* Etiquetas más discretas */
+}
+
+/* El botón de cerrar sesión más delgado */
+#sidebar .btn-outline-danger {
+    padding: 6px !important;
+    font-size: 0.85rem;
+}
+
+/* Ajuste para pantallas pequeñas (Laptops) */
+@media (max-height: 750px) {
+    #sidebar .nav-link { padding: 6px 10px !important; }
+    .sidebar-header { padding: 1rem !important; }
+}
+
+
+
+.qr-link {
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.qr-link:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.qr-card {
+    transition: box-shadow 0.3s ease;
+}
+
+.qr-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}

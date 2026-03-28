@@ -1,0 +1,307 @@
+/* ==========================================================================
+   1. LAYOUT BASE (Sidebar & Main Content) - NO TOCAR
+   ========================================================================== */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 85px;
+    --sidebar-bg: #121212;
+    /* Un negro más profundo */
+    --transition-speed: 0.4s;
+    --accent-color: #ffc107;
+
+}
+
+body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    background-color: var(--sidebar-bg) !important;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* Quitamos el radio exagerado para un look más industrial/moderno */
+    border-radius: 0;
+}
+
+#sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+}
+
+/* Ajuste del contenido principal */
+#main-content {
+    margin-left: var(--sidebar-width);
+    transition: all var(--transition-speed) ease;
+}
+
+#main-content.expanded {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Nav Links Mejorados */
+.nav-link {
+    transition: all 0.3s ease;
+    padding: 12px 15px !important;
+    margin: 4px 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.08) !important;
+    color: var(--accent-color) !important;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.2), transparent) !important;
+    border-left: 3px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* Estado Colapsado */
+#sidebar.collapsed .nav-text,
+#sidebar.collapsed .logo-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+}
+
+#sidebar.collapsed .nav-link {
+    justify-content: center;
+    margin: 4px 15px;
+}
+
+#sidebar.collapsed .nav-link i {
+    margin: 0 !important;
+}
+
+/* Reducimos el espaciado de la cabecera */
+.sidebar-header {
+    padding: 1.5rem 1.2rem !important; /* Más compacto arriba */
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reducimos el tamaño de los enlaces para que quepan más */
+#sidebar .nav-link {
+    padding: 8px 12px !important; /* Antes era 12px o 15px */
+    margin: 2px 8px !important;    /* Margen mínimo para ganar altura */
+    font-size: 0.9rem;             /* Fuente un poco más pequeña y profesional */
+}
+
+#sidebar .nav-link i {
+    font-size: 1.1rem;             /* Iconos ligeramente más pequeños */
+    min-width: 25px;
+}
+
+/* Ajustamos los separadores (Gestión, Admin) */
+.text-uppercase.small {
+    margin-top: 1rem !important;    /* Menos espacio entre secciones */
+    margin-bottom: 0.3rem !important;
+    font-size: 0.6rem !important;   /* Etiquetas más discretas */
+}
+
+/* El botón de cerrar sesión más delgado */
+#sidebar .btn-outline-danger {
+    padding: 6px !important;
+    font-size: 0.85rem;
+}
+
+/* Ajuste para pantallas pequeñas (Laptops) */
+@media (max-height: 750px) {
+    #sidebar .nav-link { padding: 6px 10px !important; }
+    .sidebar-header { padding: 1rem !important; }
+}
+
+/* ==========================================================================
+   2. CATEGORÍAS (Scroll Horizontal mejorado para Admin)
+   ========================================================================== */
+.scroll-categorias {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 15px;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+.scroll-categorias::-webkit-scrollbar {
+    display: none;
+}
+
+/* Chrome/Safari */
+
+.categoria-item {
+    border: 2px solid transparent;
+    background: white;
+    padding: 10px;
+    flex: 0 0 auto;
+    width: 120px;
+    /* Reducido un poco para que quepan más en pantalla */
+    height: 140px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.categoria-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.categoria-item.active {
+    border-color: #ffc107;
+    background-color: #fffdf5;
+}
+
+.categoria-img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   3. SUBCATEGORÍAS (Estilo Burbujas Dinámicas)
+   ========================================================================== */
+.scroll-subcategorias {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px 5px;
+    scrollbar-width: none;
+}
+
+.scroll-subcategorias::-webkit-scrollbar {
+    display: none;
+}
+
+.subcategoria-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    text-align: center;
+    width: 90px;
+    /* Ajuste para que se vea compacto */
+}
+
+/* Contenedor circular de la imagen */
+.subcategoria-img-wrapper {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 3px solid white;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subcategoria-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Texto de la subcategoría */
+.subcategoria-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6c757d;
+    margin-top: 8px;
+    transition: color 0.3s ease;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- ESTADOS INTERACTIVOS --- */
+
+/* Hover */
+.subcategoria-item:hover .subcategoria-img-wrapper {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.subcategoria-item:hover .subcategoria-img {
+    transform: scale(1.1);
+}
+
+/* Activo (Seleccionado) */
+.subcategoria-item.active .subcategoria-img-wrapper {
+    border-color: #ffc107;
+    /* El dorado de Balcony */
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+}
+
+.subcategoria-item.active .subcategoria-text {
+    color: #212529;
+    font-weight: 800;
+}
+
+/* ==========================================================================
+   4. PRODUCTOS (Grid de Cards)
+   ========================================================================== */
+.producto-card-admin {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background: white;
+    height: 100%;
+    /* Para que todas las cards midan igual */
+}
+
+.producto-card-admin:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.producto-card-admin .card-img-top {
+    border-radius: 15px 15px 0 0;
+    height: 160px;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   5. MODAL DE DETALLES (Adaptado)
+   ========================================================================== */
+.modal-content {
+    border-radius: 20px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}

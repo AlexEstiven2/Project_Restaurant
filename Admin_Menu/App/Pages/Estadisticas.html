@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Icon-->
+    <link rel="icon" href="/Image/Logo/favicon.ico">
+    <!--Titulo-->
+    <title>Estadisticas/ventas</title>
+    <!--Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!--Css-->
+    <link rel="stylesheet" href="/Styles/Estadisticas.css">
+</head>
+
+<body>
+    <!--Sidebar - Navbar-->
+    <div class="d-flex">
+        <nav id="sidebar" class="text-white shadow">
+            <div class="sidebar-header d-flex align-items-center justify-content-between p-4 mb-2">
+                <h4 class="text-warning fw-bold mb-0 logo-text">Balcony</h4>
+                <button id="toggleSidebar" class="btn btn-link text-white p-0">
+                    <i class="bi bi-text-indent-left fs-4"></i>
+                </button>
+            </div>
+
+            <div class="px-2">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="/Webcony/dashboard" class="nav-link active">
+                            <i class="bi bi-house-door"></i>
+                            <span class="nav-text ms-3">Inicio</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/WebCony/Mesas" class="nav-link text-white-50">
+                            <i class="bi bi-grid-3x3-gap"></i>
+                            <span class="nav-text ms-3">Mesas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/WebCony/Cocina" class="nav-link text-white-50">
+                            <i class="bi bi-fire"></i>
+                            <span class="nav-text ms-3">Cocina</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/WebCony/Carrito" class="nav-link text-white-50">
+                            <i class="bi bi-cart3"></i>
+                            <span class="nav-text ms-3">Carrito</span>
+                        </a>
+                    </li>
+                    <div class="text-uppercase text-white-50 small fw-bold px-4 mt-4 mb-2 logo-text"
+                        style="font-size: 0.65rem; letter-spacing: 1px;">
+                        Gestión
+                    </div>
+                    <li class="nav-item">
+                        <a href="/WebCony/Categorias" class="nav-link text-white-50">
+                            <i class="bi bi-tags"></i>
+                            <span class="nav-text ms-3">Categorías</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/WebCony/Platos" class="nav-link text-white-50">
+                            <i class="bi bi-egg-fried"></i>
+                            <span class="nav-text ms-3">Platos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/WebCony/Estadisticas" class="nav-link text-white-50">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            <span class="nav-text ms-3">Estadísticas</span>
+                        </a>
+                    </li>
+
+                    <div id="opciones-gerente" class="d-none">
+                        <div class="text-uppercase text-danger small fw-bold px-4 mt-4 mb-2 logo-text"
+                            style="font-size: 0.65rem; letter-spacing: 1px;">
+                            Admin
+                        </div>
+                        <li class="nav-item">
+                            <a href="/WebCony/Usuarios" class="nav-link text-white-50">
+                                <i class="bi bi-people"></i>
+                                <span class="nav-text ms-3">Usuarios</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/WebCony/Qr" class="nav-link text-white-50">
+                                <i class="bi bi-qr-code-scan"></i>
+                                <span class="nav-text ms-3">Códigos QR</span>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="mt-auto p-3">
+                <button type="button" onclick="cerrarSesion()"
+                    class="btn btn-outline-danger w-100 border-0 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-box-arrow-left fs-5"></i>
+                    <span class="nav-text ms-2">Cerrar Sesión</span>
+                </button>
+            </div>
+        </nav>
+        <!--Termina Sidebar/Navbar-->
+
+        <!--Empieza Contenido Estadisticas-->
+        <div id="main-content" class="flex-grow-1">
+            <nav class="navbar navbar-expand navbar-light bg-white shadow-sm sticky-top rounded-4 m-3">
+                <div class="container-fluid">
+                    <form
+                        class="d-none d-sm-inline-block form-inline me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0" id="search-addon">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" id="inputBuscador" class="form-control bg-light border-0 small"
+                                placeholder="Buscar..." aria-label="Search">
+                        </div>
+                    </form>
+                    <div class="d-flex align-items-center">
+                        <span id="badge-rol" class="badge rounded-pill me-3"></span>
+                        <span class="me-2 d-none d-lg-inline text-gray-600 small fw-bold"
+                            id="nombre-usuario-display">...</span>
+                        <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center text-white fw-bold"
+                            style="width: 40px; height: 40px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid p-4">
+                <div class="row mb-4 align-items-center">
+                    <div class="col-12 col-lg-6">
+                        <h2 class="fw-bold">📊 Reportes y Estadísticas</h2>
+                        <p class="text-muted">Análisis de rendimiento de ventas y productos.</p>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex gap-2 justify-content-lg-end bg-white p-2 rounded-4 shadow-sm">
+                            <input type="date" id="filtroInicio" class="form-control form-control-sm border-0 bg-light">
+                            <input type="date" id="filtroFin" class="form-control form-control-sm border-0 bg-light">
+                            <button onclick="cargarEstadisticasRealtime()" class="btn btn-warning btn-sm rounded-3">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-primary border-5">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                    <i class="bi bi-currency-dollar text-primary fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-0">Total Ventas</h6>
+                                    <h3 class="fw-bold mb-0" id="ventas-hoy">$0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-warning border-5">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
+                                    <i class="bi bi-bag-check text-warning fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-0">Pedidos Totales</h6>
+                                    <h3 class="fw-bold mb-0" id="total-pedidos">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-success border-5">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                                    <i class="bi bi-receipt text-success fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-0">Ticket Promedio</h6>
+                                    <h3 class="fw-bold mb-0" id="ticket-promedio">$0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="card border-0 shadow-sm rounded-4 p-4">
+                            <h5 class="fw-bold mb-4">Ventas de la Semana</h5>
+                            <canvas id="graficoVentas" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 d-flex flex-column">
+                            <h5 class="fw-bold mb-4">Top 5 Platos</h5>
+                            <div class="flex-grow-1">
+                                <canvas id="graficoPlatos"></canvas>
+                            </div>
+
+                            <div class="mt-4">
+                                <button onclick="abrirModalFeedback()"
+                                    class="btn btn-feedback-ver w-100 rounded-pill border-0 shadow-sm">
+                                    <i class="bi bi-chat-right-quote-fill me-2"></i>Ver Opiniones
+                                </button>
+                            </div>
+                            <div class="modal fade" id="modalFeedback" tabindex="-1"
+                                aria-labelledby="modalFeedbackLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered">
+                                    <div class="modal-content rounded-4 border-0 shadow">
+                                        <div class="modal-header border-0 bg-light p-4">
+                                            <h5 class="fw-bold mb-0" id="modalFeedbackLabel">
+                                                <i class="bi bi-star-fill text-warning me-2"></i>Satisfacción del
+                                                Cliente
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row g-4">
+                                                <div class="col-12 col-md-5 border-end">
+                                                    <h6 class="fw-bold text-center mb-4 text-muted">Distribución de
+                                                        Calificaciones</h6>
+                                                    <div style="position: relative; height:300px;">
+                                                        <canvas id="graficoSatisfaccion"></canvas>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-7">
+                                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                                        <h6 class="fw-bold mb-0 text-muted">Comentarios Recientes</h6>
+                                                        <select id="filtroEstrellas"
+                                                            class="form-select form-select-sm w-auto border-0 bg-light fw-bold"
+                                                            onchange="renderizarListaFeedbacks()">
+                                                            <option value="todas">Todas las notas</option>
+                                                            <option value="5">5 Estrellas ⭐</option>
+                                                            <option value="4">4 Estrellas ⭐</option>
+                                                            <option value="3">3 Estrellas ⭐</option>
+                                                            <option value="2">2 Estrellas ⭐</option>
+                                                            <option value="1">1 Estrella ⭐</option>
+                                                        </select>
+                                                    </div>
+                                                    <div id="lista-comentarios"
+                                                        style="max-height: 400px; overflow-y: auto;" class="pe-2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--Termina Contenido Estadisticas-->
+        </div>
+    </div>
+
+    <!--Security-->
+    <script src="/JavaScript/Security.js"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Sweealert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Chartjs-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--JavaScrip-->
+    <script src="/JavaScript/Estadisticas.js"></script>
+
+</body>
+</html>
