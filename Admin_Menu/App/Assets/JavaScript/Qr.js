@@ -72,6 +72,10 @@ async function cargarQrMesas() {
         const baseIp = "192.168.1.21";
         //Mateo 
         //const baseIp = "192.168.1.18";
+        //Zulma
+        //const baseIp = "192.168.68.101"
+
+
         const puertoMenu = "9090";
         const baseUrl = `http://${baseIp}:${puertoMenu}`;
 

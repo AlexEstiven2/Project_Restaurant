@@ -78,3 +78,11 @@ sequelize.authenticate()
     });
 
 export default app;
+
+app.use(express.static('public', {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.js')) {
+            res.setHeader('Cache-Control', 'no-store');
+        }
+    }
+}));

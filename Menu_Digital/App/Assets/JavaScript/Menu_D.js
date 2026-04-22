@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     /* --- 1. GUARDIA DE SEGURIDAD: VALIDACIÓN DE MESA --- */
     if (!numeroMesaActual) {
-        Swal.fire({
+        await alertTraducida({
             title: 'Mesa no asignada',
             text: 'Para realizar un pedido, debes escanear el código QR de tu mesa.',
             icon: 'warning',
@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (window.IdiomaManager) {
         await window.IdiomaManager.preguntar();
+
+        window.IdiomaManager.aplicar(localStorage.getItem('idioma_usuario') || 'es');
     }
 
     // Guardamos la mesa en sesión
@@ -69,7 +71,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         bootstrap.Modal.getOrCreateInstance(modalEl).show();
     });
 
-    // Ajuste para que el botón de historial funcione correctamente
     document.getElementById('btn-mi-pedido')?.addEventListener('click', () => verHistorial(true));
     document.getElementById("confirmCallWaiter")?.addEventListener("click", llamarMesero);
 
@@ -111,7 +112,6 @@ function actualizarBadge() {
 // CAMBIO 4: Función para verificar si el cliente ya tiene pedidos en la DB
 async function verificarConsumoActivo() {
     if (!numeroMesaActual) return;
-    // Llamamos al historial de forma silenciosa (sin abrir el modal)
     await verHistorial(false);
 }
 
@@ -120,7 +120,7 @@ async function llamarMesero() {
         const res = await fetch(`${BASE_URL_API}/mesas/llamar-mesero/${numeroMesaActual}`, { method: 'POST' });
         if (res.ok) {
             bootstrap.Modal.getInstance(document.getElementById('callWaiterModal'))?.hide();
-            Swal.fire({ title: 'Mesero avisado', icon: 'info', confirmButtonColor: '#ffc107' });
+            await alertTraducida({ title: 'Mesero avisado', icon: 'info', confirmButtonColor: '#ffc107' });
         }
     } catch (e) { console.error("Error:", e); }
 }
@@ -160,10 +160,10 @@ document.getElementById('btnRealizarPedido')?.addEventListener('click', async ()
                 verHistorial(false);
             }, 500);
 
-            Swal.fire({ title: '¡Pedido enviado!', text: 'Preparando tu orden.', icon: 'success' });
+            await alertTraducida({ title: '¡Pedido enviado!', text: 'Preparando tu orden.', icon: 'success' });
         }
     } catch (e) {
-        Swal.fire({ title: 'Error', text: 'No se pudo conectar', icon: 'error' });
+        await alertTraducida({ title: 'Error', text: 'No se pudo conectar', icon: 'error' });
     }
 });
 
@@ -171,28 +171,28 @@ async function verHistorial(mostrarModal = true) {
     if (!numeroMesaActual) return;
 
     try {
-        // El parámetro '_=' con Date.now() es infalible para evitar caché en móviles
         const res = await fetch(`/api/pedidos/mesa/${numeroMesaActual}?_=${Date.now()}`);
         const data = await res.json();
-
         const cont = document.getElementById('historial-contenido');
         const btnMiPedido = document.getElementById('btn-mi-pedido');
         let total = 0;
 
-        // Si la API devuelve datos, los pintamos
         if (data && data.length > 0) {
             if (btnMiPedido) btnMiPedido.classList.remove('d-none');
 
-            cont.innerHTML = data.map(p => {
+            const itemsTraducidos = await Promise.all(data.map(async (p) => {
                 total += parseFloat(p.SUBTOTAL);
                 return `<div class="d-flex justify-content-between border-bottom py-2">
                     <span>${p.CANTIDAD}x ${p.NOMBRE_PRODUCTO}</span>
                     <span class="fw-bold">$${parseFloat(p.SUBTOTAL).toLocaleString()}</span>
                 </div>`;
-            }).join('');
+            }));
+
+            cont.innerHTML = itemsTraducidos.join('');
         } else {
-            // OJO: Si no hay datos, mostramos el mensaje de "vacío"
-            cont.innerHTML = '<p class="text-center py-3">Aún no tienes pedidos registrados.</p>';
+            // El mensaje de "vacío" también lo pasamos por el i18n o traductor
+            const msgVacio = await window.IdiomaManager.traducirTexto("Aún no tienes pedidos registrados.");
+            cont.innerHTML = `<p class="text-center py-3">${msgVacio}</p>`;
         }
 
         const totalElement = document.getElementById('total-historial');
@@ -202,9 +202,7 @@ async function verHistorial(mostrarModal = true) {
             const modalH = document.getElementById('modalHistorial');
             bootstrap.Modal.getOrCreateInstance(modalH).show();
         }
-    } catch (e) {
-        console.error("Error al recuperar el historial:", e);
-    }
+    } catch (e) { console.error("Error historial:", e); }
 }
 
 document.getElementById('btnEnviarFeedback')?.addEventListener('click', async (e) => {
@@ -214,7 +212,7 @@ document.getElementById('btnEnviarFeedback')?.addEventListener('click', async (e
     const comentario = document.getElementById('comentarioFeedback').value;
 
     if (estrellas === 0) {
-        return Swal.fire('Atención', 'Por favor selecciona una calificación', 'warning');
+        return await alertTraducida('Atención', 'Por favor selecciona una calificación', 'warning');
     }
 
     try {
@@ -234,7 +232,7 @@ document.getElementById('btnEnviarFeedback')?.addEventListener('click', async (e
 
         if (response.ok) {
             await fetch(`${BASE_URL_API}/mesas/solicitar-cuenta/${numeroMesaActual}`, { method: 'POST' });
-            Swal.fire({ title: '¡Gracias!', icon: 'success' }).then(() => {
+            await alertTraducida({ title: '¡Gracias!', icon: 'success' }).then(() => {
                 window.location.href = "/";
             });
         } else {
@@ -243,7 +241,7 @@ document.getElementById('btnEnviarFeedback')?.addEventListener('click', async (e
     } catch (e) {
         console.error(e);
         // Esto te dirá en el celular qué está pasando
-        Swal.fire('Error', 'No se pudo enviar: ' + e.message, 'error');
+        await alertTraducida('Error', 'No se pudo enviar: ' + e.message, 'error');
     }
 });
 
@@ -264,16 +262,16 @@ async function rastrearEstadoPedido() {
         if (nuevoEstado === estadoAnterior) return;
 
         if (nuevoEstado === 'EN_PREPARACION' && estadoAnterior === 'PENDIENTE') {
-            Swal.fire({
+            await alertTraducida({
                 title: '¡Pedido en cocina!',
-                text: 'El chef está preparando tus platos. 👨‍🍳',
+                text: 'El chef está preparando tus platos.',
                 icon: 'info', toast: true, position: 'top-end', showConfirmButton: false, timer: 4000, timerProgressBar: true
             });
         }
 
         if (nuevoEstado === 'ENTREGADO' && estadoAnterior !== 'ENTREGADO') {
-            Swal.fire({
-                title: '¡Pedido en camino! 🚀',
+            await alertTraducida({
+                title: '¡Pedido en camino!',
                 text: 'Tu comida va directo a tu mesa.',
                 icon: 'success', timer: 5000, timerProgressBar: true,
                 backdrop: `rgba(0,0,123,0.1) url("/Image/Animaciones/delivery.gif") center center no-repeat`
@@ -303,12 +301,17 @@ async function cargarSubcategorias(idCat) {
     try {
         const res = await fetch(`${BASE_URL_API}/menu/subcategorias/${idCat}`);
         const data = await res.json();
+        const lista = document.getElementById('subcategoria-lista');
         document.getElementById('subcategorias').classList.remove('d-none');
-        document.getElementById('subcategoria-lista').innerHTML = data.map(sub => `
+
+        const promesasTraducion = data.map(sub => window.IdiomaManager.traducirTexto(sub.NOMBRE_SUBCATE));
+        const nombresTraducidos = await Promise.all(promesasTraducion);
+
+        lista.innerHTML = data.map((sub, index) => `
             <button class="subcategoria-item me-3" onclick="cargarProductos(${sub.ID_SUBCATEGORIA})">
                 <div class="subcategoria-img-container">
-                    <img src="${sub.IMAGEN}">
-                    <div class="subcategoria-label">${sub.NOMBRE_SUBCATE}</div>
+                    <img src="${sub.IMAGEN}" onerror="this.src='/Image/placeholder.png'">
+                    <div class="subcategoria-label">${nombresTraducidos[index]}</div>
                 </div>
             </button>
         `).join('');
@@ -321,12 +324,18 @@ async function cargarProductos(idSub) {
         const data = await res.json();
         const contenedor = document.getElementById('productos');
         contenedor.classList.remove('d-none');
-        contenedor.innerHTML = data.map(prod => `
+
+        const descripcionesTraducidas = await Promise.all(
+            data.map(prod => window.IdiomaManager.traducirTexto(prod.DESCRIPCION_PRO || ""))
+        );
+
+        contenedor.innerHTML = data.map((prod, index) => `
             <div class="col-12 mb-2">
                 <div class="producto-item" onclick='abrirDetalle(${JSON.stringify(prod)})'>
-                    <img src="${prod.IMAGEN}" class="producto-img me-3">
+                    <img src="${prod.IMAGEN}" class="producto-img me-3" onerror="this.src='/Image/placeholder.png'">
                     <div class="flex-grow-1">
                         <h6 class="fw-bold mb-1">${prod.NOMBRE_PRODUCTO}</h6>
+                        <p class="text-muted small mb-0">${descripcionesTraducidas[index]}</p>
                         <span class="text-success fw-bold">$${parseFloat(prod.PRECIO_PRO).toLocaleString()}</span>
                     </div>
                     <i class="bi bi-plus-circle fs-4 text-warning"></i>
@@ -337,13 +346,29 @@ async function cargarProductos(idSub) {
 }
 
 function abrirDetalle(prod) {
-    document.getElementById('modalDetalleContenido').innerHTML = `
-        <div class="text-center">
-            <img src="${prod.IMAGEN}" class="img-fluid rounded-3 mb-3" style="max-height: 200px;">
-            <h4 class="fw-bold">${prod.NOMBRE_PRODUCTO}</h4>
-            <input type="number" id="cantDet" class="form-control text-center mx-auto w-25" value="1" min="1">
-            <textarea id="notasDet" class="form-control mt-2" placeholder="Ej: Sin cebolla..."></textarea>
-        </div>`;
+    // 1. Buscamos la descripción en cualquier variante posible
+    const descOriginal = prod.DESCRIPCION_PRO || prod.descripcion_pro || prod.Descripcion_Pro || "";
+
+    // 2. Limpieza inmediata del modal para quitar el mensaje de error previo
+    const contenidoModal = document.getElementById('modalDetalleContenido');
+    contenidoModal.innerHTML = `<div class="text-center p-4"><div class="spinner-border text-warning"></div></div>`;
+
+    window.IdiomaManager.traducirTexto(descOriginal).then(descTraducida => {
+        // 3. Verificación de seguridad: Si la API devuelve su mensaje de error, usamos el original
+        let textoFinal = descTraducida;
+        if (descTraducida.includes("QUERY") || descTraducida.includes("EXAMPLE")) {
+            textoFinal = descOriginal;
+        }
+
+        contenidoModal.innerHTML = `
+            <div class="text-center">
+                <img src="${prod.IMAGEN}" class="img-fluid rounded-3 mb-3" style="max-height: 200px;">
+                <h4 class="fw-bold">${prod.NOMBRE_PRODUCTO}</h4>
+                <p class="text-muted">${textoFinal || 'Delicious traditional dish'}</p>
+                <input type="number" id="cantDet" class="form-control text-center mx-auto w-25" value="1" min="1">
+                <textarea id="notasDet" class="form-control mt-2" placeholder="Ej: Sin cebolla..."></textarea>
+            </div>`;
+    });
 
     document.getElementById("btnAgregarDesdeModal").onclick = () => {
         const cant = parseInt(document.getElementById("cantDet").value);
@@ -373,4 +398,24 @@ function actualizarBadge() {
         b.textContent = carrito.length;
         b.classList.toggle('d-none', carrito.length === 0);
     }
+}
+
+async function alertTraducida({ title, text, icon, confirmButtonText, ...props }) {
+    const idioma = localStorage.getItem('idioma_usuario') || 'es';
+    let tTit = title, tTxt = text, tBtn = confirmButtonText || 'Aceptar';
+
+    if (idioma !== 'es') {
+        tTit = await window.IdiomaManager.traducirTexto(title);
+        tTxt = await window.IdiomaManager.traducirTexto(text);
+        if (confirmButtonText) tBtn = await window.IdiomaManager.traducirTexto(confirmButtonText);
+    }
+
+    return Swal.fire({
+        title: tTit,
+        text: tTxt,
+        icon: icon || 'info',
+        confirmButtonColor: '#ffc107',
+        confirmButtonText: tBtn,
+        ...props
+    });
 }
