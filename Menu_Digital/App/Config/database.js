@@ -3,11 +3,17 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql', // Asegúrate de que sea 'mysql' en minúsculas
-  // ... resto de tu config
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME, 
+  process.env.DB_USER, 
+  process.env.DB_PASSWORD, 
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql', // <--- Revisa que diga esto exactamente
+    port: process.env.DB_PORT || 3306,
+    // ...
+  }
+);
 
 const conectarDB = async () => {
   try {
