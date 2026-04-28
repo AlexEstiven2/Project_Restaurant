@@ -42,7 +42,13 @@ app.get("/", (req, res) => {
 /* --- API --- */
 app.use("/api", routes);
 
-/* --- CONEXIÓN DB (diferida, no bloquea Vercel) --- */
+/* --- INICIO DEL SERVIDOR --- */
+const PORT = process.env.PORT || 9090;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor en línea en puerto ${PORT}`);
+});
+
+/* --- CONEXIÓN DB --- */
 sequelize
   .authenticate()
   .then(() => {
@@ -50,13 +56,5 @@ sequelize
     return conectarDB();
   })
   .catch((err) => console.error("❌ Error DB:", err.message));
-
-/* --- SOLO para desarrollo local --- */
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 9090;
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor local en puerto ${PORT}`);
-  });
-}
 
 export default app;

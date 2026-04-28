@@ -6,12 +6,15 @@ dotenv.config();
 const sequelize = new Sequelize(
   process.env.DB_NAME, 
   process.env.DB_USER, 
-  process.env.DB_PASSWORD, 
+  process.env.DB_PASS, 
   {
     host: process.env.DB_HOST,
-    dialect: 'mysql', // <--- Revisa que diga esto exactamente
-    port: process.env.DB_PORT || 3306,
-    // ...
+    port: process.env.DB_PORT || 3306, // Agregamos esta línea para leer el puerto 47223
+    dialect: "mysql",
+    logging: false,
+    dialectOptions: {
+      connectTimeout: 60000 // Útil para evitar desconexiones por latencia en la nube
+    }
   }
 );
 
