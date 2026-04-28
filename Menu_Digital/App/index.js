@@ -70,12 +70,17 @@ app.use((req, res, next) => {
 /* --- INICIO DEL SERVIDOR (Versión Indestructible) --- */
 const startServer = async () => {
     try {
-        await sequelize.authenticate();
+        // Primero intentamos conectar
+        await conectarDB();
+        console.log("✅ Conexión a Clever Cloud exitosa");
+        
+        // Luego iniciamos el servidor
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor Onix listo en el puerto: ${PORT}`);
+            console.log(`🚀 Servidor Onix listo en puerto ${PORT}`);
         });
     } catch (err) {
-        console.error("❌ Error crítico en la conexión a la base de datos:", err);
+        console.error("❌ Falló el inicio del servidor:", err);
+        // No cerramos el proceso para que Vercel pueda darnos logs detallados
     }
 };
 
