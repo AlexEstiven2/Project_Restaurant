@@ -1,5 +1,5 @@
 import Categoria from '../Models/Categoria.js';
-import Subcategoria from '../Models/Subcategoria.js';
+import Subcategoria from '../Models/SubCategoria.js';
 import fs from 'fs/promises';
 import path from 'path';
 
