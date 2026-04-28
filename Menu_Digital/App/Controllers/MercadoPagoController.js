@@ -3,7 +3,7 @@ import { QueryTypes } from "sequelize";
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 const client = new MercadoPagoConfig({
-    accessToken: 'APP_USR-3995604907423819-042518-26c7287da15a949b705b35f7078c91f1-3360257618'
+    accessToken: process.env.ACCESS_TOKEN_MP
 });
 
 // URL de tu túnel activo en ngrok
