@@ -3,20 +3,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME, 
-  process.env.DB_USER, 
-  process.env.DB_PASS, 
-  {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 3306, // Agregamos esta línea para leer el puerto 47223
-    dialect: "mysql",
-    logging: false,
-    dialectOptions: {
-      connectTimeout: 60000 // Útil para evitar desconexiones por latencia en la nube
-    }
-  }
-);
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql', // Asegúrate de que sea 'mysql' en minúsculas
+  // ... resto de tu config
+});
 
 const conectarDB = async () => {
   try {
