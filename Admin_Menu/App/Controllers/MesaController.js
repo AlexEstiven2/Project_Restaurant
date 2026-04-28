@@ -1,5 +1,5 @@
 import Mesa from '../Models/Mesa.js';
-import { sequelize } from "../Config/database.js";
+import { sequelize } from "../Config/Database.js";
 import { QueryTypes } from "sequelize";
 
 /* ==========================================================================
