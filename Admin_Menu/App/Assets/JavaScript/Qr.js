@@ -63,7 +63,7 @@ async function cargarQrMesas() {
         contenedor.innerHTML = '';
 
         // URL de producción del Menú Digital
-        const baseUrl = "https://project-restaurant-u66m.onrender.com";
+        const baseUrl = "https://menu-digital-nnm0.onrender.com";
 
         mesas.forEach(mesa => {
             const col = document.createElement('div');
