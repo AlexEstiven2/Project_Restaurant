@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../config/Database.js"; 
+import { sequelize } from "../Config/Database.js"; 
 
 const DetallePedido = sequelize.define('DetallePedido', {
     ID_DETALLE_PEDIDO: { 

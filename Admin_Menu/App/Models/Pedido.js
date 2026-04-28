@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../config/Database.js"; // Ajusta la ruta según tu carpeta
+import { sequelize } from "../Config/Database.js"; // Ajusta la ruta según tu carpeta
 
 const Pedido = sequelize.define('Pedido', {
     ID_PEDIDOS: {
