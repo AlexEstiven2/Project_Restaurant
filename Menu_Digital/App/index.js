@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "Assets"), { maxAge: '1h' }));
 
 // ⚠️ NOTA: baseAdminPath fallará en Vercel si Admin_Menu no está dentro de Menu_Digital.
 // Por ahora lo dejamos, pero si las imágenes no cargan, deberás moverlas a Menu_Digital.
-const baseAdminPath = path.join(__dirname, "./Assets/Image");
+app.use('/Image', express.static(path.join(__dirname, "Assets/Image"), cacheOptions));
 
 app.use('/Image/Categoria', express.static(path.join(baseAdminPath, 'Categoria'), cacheOptions));
 app.use('/Image/Productos', express.static(path.join(baseAdminPath, 'Productos'), cacheOptions));
