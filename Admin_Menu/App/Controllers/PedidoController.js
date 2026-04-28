@@ -1,7 +1,7 @@
 import Pedido from '../Models/Pedido.js';
 import DetallePedido from '../Models/DetallePedido.js';
 import Mesa from '../Models/Mesa.js';
-import { sequelize } from '../config/Database.js';
+import { sequelize } from '../Config/Database.js';
 import { QueryTypes } from 'sequelize';
 
 /* ==========================================================================
