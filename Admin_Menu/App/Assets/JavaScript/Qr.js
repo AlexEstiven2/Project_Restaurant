@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('opciones-gerente')?.classList.remove('d-none');
     }
 
-    // 2. Navegación Inteligente y Sidebar
     marcarEnlaceActivo();
     
     const toggleBtn = document.getElementById('toggleSidebar');
@@ -37,8 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     marcarEnlaceActivo();
     cargarQrMesas();
 });
-
-
 
 function marcarEnlaceActivo() {
     const pathActual = window.location.pathname;
@@ -63,29 +60,15 @@ async function cargarQrMesas() {
         const res = await fetch('/api/mesas');
         const mesas = await res.json();
 
-        contenedor.innerHTML = ''; 
+        contenedor.innerHTML = '';
 
-        // CONFIGURACIÓN DE RED: 
-        //Johan 
-        //const baseIp = "192.168.1.33";
-        //Yo
-        //const baseIp = "192.168.1.21";
-        //Dvi
-        const baseIp = "192.168.137.200";
-        //Mateo ngrok http 9090
-        //const baseIp = "192.168.1.18";
-        //Zulma
-        //const baseIp = "192.168.68.101"
-
-
-        const puertoMenu = "9090";
-        const baseUrl = `http://${baseIp}:${puertoMenu}`;
+        // URL de producción del Menú Digital
+        const baseUrl = "https://project-restaurant-u66m.onrender.com";
 
         mesas.forEach(mesa => {
             const col = document.createElement('div');
             col.className = 'col-12 col-sm-6 col-md-4 col-lg-3 text-center mb-4';
             
-            // La URL final será ej: http://192.168.1.21:9090/?mesa=1
             const urlMenuDigital = `${baseUrl}/?mesa=${mesa.ID_MESAS}`;
 
             col.innerHTML = `
@@ -113,7 +96,6 @@ async function cargarQrMesas() {
 
             contenedor.appendChild(col);
 
-            // Generar el código QR con la URL de la red local
             new QRCode(document.getElementById(`qr-mesa-${mesa.ID_MESAS}`), {
                 text: urlMenuDigital,
                 width: 180,
@@ -135,7 +117,6 @@ window.descargarQrMesa = function(divId, numeroMesa) {
     const canvas = container.querySelector('canvas');
     const img = container.querySelector('img');
 
-    // Soporte para múltiples navegadores
     const dataURL = canvas ? canvas.toDataURL("image/png") : (img ? img.src : null);
 
     if (dataURL) {
