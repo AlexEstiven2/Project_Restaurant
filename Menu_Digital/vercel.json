@@ -2,14 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "App/index.js",
-      "use": "@vercel/node"
+      "src": "Menu_Digital/App/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["Menu_Digital/node_modules/**"]
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "App/index.js"
+      "dest": "Menu_Digital/App/index.js"
     }
   ]
 }
