@@ -1,5 +1,13 @@
 {
   "version": 2,
-  "builds": [{ "src": "App/index.js", "use": "@vercel/node" }],
+  "builds": [
+    {
+      "src": "App/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["App/**", "node_modules/mysql2/**", "node_modules/sequelize/**"]
+      }
+    }
+  ],
   "routes": [{ "src": "/(.*)", "dest": "App/index.js" }]
 }
