@@ -8,14 +8,16 @@ import compression from "compression";
 import routes from "./Config/routes.js";
 import { sequelize, conectarDB } from "./Config/database.js";
 
-// Inicializar entorno
-dotenv.config();
-conectarDB();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Solo carga dotenv si NO estás en Vercel (Producción)
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
+
 const app = express();
+// Vercel asigna el puerto automáticamente, pero mantenemos el 9090 para local
 const PORT = process.env.PORT || 9090;
 
 /* --- MIDDLEWARES --- */
@@ -30,26 +32,19 @@ app.use(cors({
 }));
 
 /* --- CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS --- */
-
 const cacheOptions = {
     maxAge: '1d',
     etag: true
 };
 
-// 1. Assets locales (CSS, JS)
+// Assets locales
 app.use(express.static(path.join(__dirname, "Assets"), { maxAge: '1h' })); 
 
-// ⚠️ NOTA: baseAdminPath fallará en Vercel si Admin_Menu no está dentro de Menu_Digital.
-// Por ahora lo dejamos, pero si las imágenes no cargan, deberás moverlas a Menu_Digital.
+// Rutas de imágenes
 app.use('/Image', express.static(path.join(__dirname, "Assets/Image"), cacheOptions));
-
-app.use('/Image/Categoria', express.static(path.join(baseAdminPath, 'Categoria'), cacheOptions));
-app.use('/Image/Productos', express.static(path.join(baseAdminPath, 'Productos'), cacheOptions));
-app.use('/Image/SubCategoria', express.static(path.join(baseAdminPath, 'SubCategoria'), cacheOptions));
 app.use('/Image/Logos', express.static(path.join(__dirname, "Assets/Image/Logos")));
 
 /* --- NAVEGACIÓN --- */
-
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "Pages", "Menu_D.html"));
 });
@@ -58,7 +53,6 @@ app.get("/", (req, res) => {
 app.use("/api", routes);
 
 /* --- GESTIÓN DE ERRORES 404 --- */
-// (Colocado al final para que no bloquee las rutas anteriores)
 app.use((req, res, next) => {
     if (req.path.startsWith('/api')) {
         res.status(404).json({ error: "Ruta de API no encontrada" });
@@ -67,18 +61,27 @@ app.use((req, res, next) => {
     }
 });
 
-/* --- INICIO DEL SERVIDOR (Versión Indestructible) --- */
+/* --- INICIO DEL SERVIDOR --- */
 const startServer = async () => {
     try {
-        // Solo autentica, no bloquees el arranque
-        sequelize.authenticate().then(() => console.log("DB OK"));
+        // En Vercel (Serverless), no bloqueamos el arranque por la DB
+        // Solo intentamos conectar. Si falla, el servidor seguirá vivo para dar errores claros.
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor Onix en puerto ${PORT}`);
+            console.log(`🚀 Onix Soft desplegado con éxito`);
         });
+
+        // Conexión asíncrona a Clever Cloud
+        conectarDB().then(() => {
+            console.log("✅ Conexión a DB Onix establecida");
+        }).catch(err => {
+            console.error("❌ Error de conexión DB en Onix:", err.message);
+        });
+
     } catch (err) {
-        console.error("Error inicial:", err);
+        console.error("❌ Error crítico en el arranque de Onix:", err);
     }
 };
+
 startServer();
 
 export default app;
