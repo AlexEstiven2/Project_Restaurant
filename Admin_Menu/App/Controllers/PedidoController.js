@@ -136,14 +136,14 @@ export const cambiarEstadoPedido = async (req, res) => {
                 const idMesa = pedido.ID_MESA;
 
                 await Mesa.update(
-                    { ESTADO_MESA: 'RECIBIDO' },
+                    { ESTADO_MESA: 'PEDIDO EN MESA' },
                     { where: { ID_MESAS: idMesa } }
                 );
 
                 setTimeout(async () => {
                     try {
                         const mesaActual = await Mesa.findByPk(idMesa);
-                        if (mesaActual && mesaActual.ESTADO_MESA === 'RECIBIDO') {
+                        if (mesaActual && mesaActual.ESTADO_MESA === 'PEDIDO EN MESA') {
                             await Mesa.update(
                                 { ESTADO_MESA: 'OCUPADA' },
                                 { where: { ID_MESAS: idMesa } }

@@ -14,7 +14,7 @@
 body {
     background-color: #f8f9fa;
     overflow-x: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 #sidebar {
@@ -170,7 +170,9 @@ body {
     text-transform: uppercase;
 }
 
-/* Colores de estados */
+/* ==========================================================================
+   COLORES DE ESTADOS
+   ========================================================================== */
 .mesa-disponible { border-bottom: 5px solid #198754; color: #198754; }
 .mesa-disponible .mesa-badge { background: #d1e7dd; color: #0f5132; }
 
@@ -308,6 +310,42 @@ body {
     50% { transform: scale(1.02); }
     100% { transform: scale(1); }
 }
+
+/* --- ESTADO: PEDIDO EN MESA (Marrón Terracota) --- */
+.mesa-pedido-en-mesa {
+    background-color: #8B4513 !important;
+    border: 3px solid #5D2E0A !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+}
+.mesa-pedido-en-mesa .mesa-badge { background-color: #fff; color: #8B4513; }
+
+/* --- ESTADO: PAGANDO DIGITAL (Fucsia/Magenta) --- */
+.mesa-pagando-digital {
+    background-color: #E75480 !important;
+    border: 3px solid #C03050 !important;
+    color: white !important;
+    animation: flash-digital 1.5s infinite;
+}
+.mesa-pagando-digital .mesa-badge { background-color: #fff; color: #E75480; }
+
+@keyframes flash-digital {
+    0% { box-shadow: 0 0 0 0 rgba(231, 84, 128, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(231, 84, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(231, 84, 128, 0); }
+}
+
+/* --- ESTADO: PAGO CONFIRMADO (Gris Carbón / Negro) --- */
+.mesa-pago-confirmado {
+    background-color: #2C3E50 !important;
+    border: 3px solid #1A252F !important;
+    color: white !important;
+}
+.mesa-pago-confirmado .mesa-badge {
+    background-color: #00ff88; /* Un verde neón pequeño para resaltar el éxito */
+    color: #1A252F;
+}
+/*Colores de Estado de mesa*/
 
 /* ==========================================================================
    NUEVO ESTILO PARA EL MODAL DE DETALLES (SWEETALERT / MODAL)

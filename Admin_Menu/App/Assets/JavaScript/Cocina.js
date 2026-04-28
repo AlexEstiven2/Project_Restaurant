@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarReloj();
     setInterval(actualizarReloj, 1000);
 
-    // Carga inicial y refresco automático cada 15 segundos
+    // MEJORA: Carga inicial y refresco automático cada 5 segundos para mayor agilidad
     cargarMonitor();
-    setInterval(cargarMonitor, 15000);
+    setInterval(cargarMonitor, 5000); 
 });
 
 function marcarEnlaceActivo() {
@@ -79,7 +79,7 @@ async function cargarMonitor() {
         if (pedidos.length === 0) {
             contenedor.innerHTML = `
                 <div class="col-12 text-center mt-5">
-                    <h3 class="text-muted">No hay pedidos pendientes 🍕</h3>
+                    <h3 class="text-muted">No hay pedidos pendientes 👨‍🍳</h3>
                 </div>`;
             return;
         }
@@ -108,7 +108,7 @@ async function cargarMonitor() {
                                     <span class="badge bg-dark rounded-pill">${i.cantidad}</span>
                                 </div>
                                 ${i.observaciones ? `
-                                    <div class="nota-cliente mt-1">
+                                    <div class="nota-cliente mt-1" style="font-size: 0.8rem; color: #666; background: #fff3cd; padding: 5px; border-radius: 4px;">
                                         <i class="bi bi-info-circle-fill"></i> ${i.observaciones}
                                     </div>
                                 ` : ''}
@@ -141,31 +141,43 @@ async function cargarMonitor() {
 
 window.cambiarEstadoPedido = async function (id, nuevoEstado, numeroMesa) {
     try {
-        // 1. Solo una petición: cambiar el estado del pedido
+        // 1. Actualizar el PEDIDO (Hacia la tabla PEDIDOS)
         const res = await fetch(`/api/pedidos/estado/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ estado: nuevoEstado })
+            body: JSON.stringify({ estado: nuevoEstado }) // Enviará 'EN_PREPARACION' o 'ENTREGADO'
         });
 
         if (res.ok) {
+            // 2. Sincronizar la MESA (Hacia la tabla MESAS para el Admin)
+            if (nuevoEstado === 'EN_PREPARACION') {
+                await fetch(`/api/mesas/estado-por-numero/${numeroMesa}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ estado: 'ESPERANDO PEDIDO' }) // Morado
+                });
+            }
+
             if (nuevoEstado === 'ENTREGADO') {
+                await fetch(`/api/mesas/estado-por-numero/${numeroMesa}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ estado: 'PEDIDO EN MESA' }) // Marrón
+                });
+
                 Swal.fire({
                     toast: true,
                     position: 'top-end',
                     icon: 'success',
-                    title: `Pedido enviado a mesa`,
+                    title: `Pedido enviado a mesa #${numeroMesa}`,
                     showConfirmButton: false,
                     timer: 2000
                 });
             }
+
             await cargarMonitor();
-        } else {
-            const errorData = await res.json();
-            console.error("Error del servidor:", errorData);
         }
     } catch (error) {
         console.error("Error de red:", error);
-        Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
     }
 };

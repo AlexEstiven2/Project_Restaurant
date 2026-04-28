@@ -81,8 +81,8 @@ window.IdiomaManager = {
             showCancelButton: true,
             confirmButtonColor: '#ffc107',
             cancelButtonColor: '#000000',
-            confirmButtonText: 'Español 🇪🇸',
-            cancelButtonText: 'English 🇺🇸',
+            confirmButtonText: 'Español',
+            cancelButtonText: 'English',
             allowOutsideClick: false,
             heightAuto: false
         });

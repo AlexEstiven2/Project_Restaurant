@@ -4,4 +4,4 @@ import { obtenerEstadisticas } from '../Controllers/EstadisticasController.js';
 
 router.get('/api/estadisticas', obtenerEstadisticas);
 
-export default router; 
+export default router;  

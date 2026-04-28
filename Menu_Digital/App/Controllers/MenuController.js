@@ -74,7 +74,7 @@ export const solicitarCuenta = async (req, res) => {
     const { numeroMesa } = req.params;
     try {
         await sequelize.query(
-            "UPDATE MESAS SET ESTADO_MESA = 'SOLICITO CUENTA' WHERE NUMERO_MESA = ?",
+            "UPDATE MESAS SET ESTADO_MESA = 'PIDIENDO FACTURA' WHERE NUMERO_MESA = ?",
             { replacements: [numeroMesa] }
         );
         res.json({ message: "Solicitud de cuenta enviada" });
@@ -110,5 +110,20 @@ export const setEsperandoPedido = async (req, res) => {
     } catch (error) {
         logError("setEsperandoPedido", error);
         res.status(500).json({ error: "Error al actualizar estado a esperando" });
+    }
+};
+
+export const actualizarEstadoPorNumero = async (req, res) => {
+    const { numeroMesa } = req.params;
+    const { estado } = req.body; // Recibe 'PIDIENDO FACTURA', 'PAGANDO', etc.
+    try {
+        await sequelize.query(
+            "UPDATE MESAS SET ESTADO_MESA = ? WHERE NUMERO_MESA = ?",
+            { replacements: [estado, numeroMesa] }
+        );
+        res.json({ message: `Mesa ${numeroMesa} actualizada a ${estado}` });
+    } catch (error) {
+        logError("actualizarEstadoPorNumero", error);
+        res.status(500).json({ error: "Error al actualizar estado" });
     }
 };

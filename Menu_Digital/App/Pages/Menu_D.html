@@ -186,6 +186,47 @@
         </div>
     </div>
 
+    <!---->
+    <div class="modal fade" id="modalMetodoPago" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body text-center p-5">
+                    <img src="/Image/Logos/Logo Balcony 3.0.png" width="80" class="mb-4">
+                    <h3 class="fw-bold mb-1">Finalizar Pedido</h3>
+                    <p class="text-muted mb-4">¿Cómo deseas realizar el pago de tu cuenta?</p>
+
+                    <div class="d-grid gap-3">
+                        <button
+                            class="btn btn-light border py-3 rounded-4 shadow-sm d-flex align-items-center justify-content-center"
+                            onclick="elegirPagoEfectivo()">
+                            <i class="bi bi-cash-stack fs-3 me-3 text-success"></i>
+                            <div class="text-start">
+                                <span class="d-block fw-bold">Efectivo</span>
+                                <small class="text-muted">Paga directamente en mesa</small>
+                            </div>
+                        </button>
+
+                        <button
+                            class="btn btn-light border py-3 rounded-4 shadow-sm d-flex align-items-center justify-content-center"
+                            onclick="elegirMercadoPago()">
+                            <img src="https://http2.mlstatic.com/frontend-assets/billing-plans-lib/logo-mp-blue.svg"
+                                width="35" class="me-3">
+                            <div class="text-start">
+                                <span class="d-block fw-bold" style="color: #009ee3;">Mercado Pago</span>
+                                <small class="text-muted">Tarjeta, PSE o Nequi</small>
+                            </div>
+                        </button>
+                    </div>
+
+                    <button class="btn btn-link mt-4 text-decoration-none text-secondary" data-bs-dismiss="modal">
+                        Volver al menú
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+
     <div class="modal fade" id="modalFeedback" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
@@ -222,7 +263,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--JavaScript Menu-->
     <script src="/JavaScript/Idiomas.js?v=1.2"></script>
-    <script src="/JavaScript/Menu_D.js?v=1.2"></script>
+    <script src="/JavaScript/Menu_D.js?v=1.1"></script>
 
 </body>
 

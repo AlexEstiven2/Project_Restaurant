@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!rol || !nombre) {
         window.location.href = "/Webcony/login";
-        return; 
+        return;
     }
 
     const nombreDisplay = document.getElementById('nombre-usuario-display');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Polling cada 5 segundos para actualizar estados en tiempo real
     setInterval(() => {
         cargarMesas();
-    }, 5000);
+    }, 2000);
 });
 
 function marcarEnlaceActivo() {
@@ -73,7 +73,7 @@ async function cargarMesas() {
         const mesas = await res.json();
 
         // --- LÓGICA DE NOTIFICACIÓN SONORA ---
-        const mesasSolicitando = mesas.filter(m => m.ESTADO_MESA === 'SOLICITO CUENTA').length;
+        const mesasSolicitando = mesas.filter(m => m.ESTADO_MESA === 'PIDIENDO FACTURA').length;
         if (mesasSolicitando > mesasConCuentaAnterior) {
             reproducirAlerta();
         }
@@ -85,31 +85,43 @@ async function cargarMesas() {
             let colorClass = '';
             let iconoClase = 'bi-lock-fill';
 
-            // DETERMINACIÓN DINÁMICA DE CLASE Y ICONO
-            if (estado === 'DISPONIBLE') {
-                colorClass = 'mesa-disponible';
-                iconoClase = 'bi-unlock';
-            } else if (estado === 'RECIBIDO') {
-                colorClass = 'mesa-recibido';
-                iconoClase = 'bi-check-all';
-            } else if (estado === 'SOLICITO CUENTA') {
-                colorClass = 'mesa-solicitando-cuenta';
-                iconoClase = 'bi-receipt';
-            } else if (estado === 'LLAMANDO MESERO') {
-                colorClass = 'mesa-llamando-mesero';
-                iconoClase = 'bi-person-raised-hand';
-            } else if (estado === 'ESPERANDO PEDIDO') {
-                colorClass = 'mesa-esperando-pedido';
-                iconoClase = 'bi-hourglass-split';
-            } else if (estado === 'PAGANDO') {
-                colorClass = 'mesa-pagando';
-                iconoClase = 'bi-cash-coin';
-            } else if (estado === 'PAGADO') {
-                colorClass = 'mesa-pagado';
-                iconoClase = 'bi-flag-fill';
-            } else {
-                colorClass = 'mesa-ocupada';
-                iconoClase = 'bi-lock-fill';
+            switch (estado) {
+                case 'DISPONIBLE':
+                    colorClass = 'mesa-disponible';
+                    iconoClase = 'bi-unlock';
+                    break;
+                case 'EN COCINA':
+                case 'ESPERANDO PEDIDO':
+                    colorClass = 'mesa-esperando-pedido';
+                    iconoClase = 'bi-hourglass-split';
+                    break;
+                case 'PEDIDO EN MESA': // NUEVO: Marrón
+                    colorClass = 'mesa-pedido-en-mesa';
+                    iconoClase = 'bi-egg-fried';
+                    break;
+                case 'LLAMANDO MESERO':
+                    colorClass = 'mesa-llamando-mesero';
+                    iconoClase = 'bi-person-raised-hand';
+                    break;
+                case 'PIDIENDO FACTURA': // Amarillo (Efectivo)
+                    colorClass = 'mesa-solicitando-cuenta';
+                    iconoClase = 'bi-receipt-cutoff';
+                    break;
+                case 'PAGANDO': // NUEVO: Fucsia (Digital)
+                    colorClass = 'mesa-pagando-digital';
+                    iconoClase = 'bi-credit-card-2-front';
+                    break;
+                case 'PAGO CONFIRMADO': // NUEVO: Gris/Negro
+                    colorClass = 'mesa-pago-confirmado';
+                    iconoClase = 'bi-patch-check-fill';
+                    break;
+                case 'PAGADO': // Naranja (Finalizado)
+                    colorClass = 'mesa-pagado';
+                    iconoClase = 'bi-flag-fill';
+                    break;
+                default:
+                    colorClass = 'mesa-ocupada';
+                    iconoClase = 'bi-lock-fill';
             }
 
             return `
@@ -173,10 +185,10 @@ window.gestionarFlujoMesa = async function (mesa) {
                         </thead>
                         <tbody>
                             ${productosData.map(p => {
-                                const sub = p.CANTIDAD * p.PRECIO_UNITARIO;
-                                totalMesa += sub;
-                                return `<tr><td>${p.CANTIDAD}</td><td>${p.NOMBRE_PRODUCTO}</td><td>$${sub.toLocaleString()}</td></tr>`;
-                            }).join('')}
+                    const sub = p.CANTIDAD * p.PRECIO_UNITARIO;
+                    totalMesa += sub;
+                    return `<tr><td>${p.CANTIDAD}</td><td>${p.NOMBRE_PRODUCTO}</td><td>$${sub.toLocaleString()}</td></tr>`;
+                }).join('')}
                         </tbody>
                         <tfoot>
                             <tr class="table-warning"><th colspan="2" class="text-end">TOTAL:</th><th>$${totalMesa.toLocaleString()}</th></tr>
@@ -192,34 +204,38 @@ window.gestionarFlujoMesa = async function (mesa) {
         // --- LÓGICA DE CAMBIO MANUAL DE ESTADO (NUEVO) ---
         // Creamos una botonera para que el Admin fuerce estados si el cliente no usa el QR
         const botonesManuales = `
-            <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 p-2 bg-light rounded-3 border">
-                <small class="w-100 text-muted text-center mb-1">Cambio de Estado Manual:</small>
-                <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'SOLICITO CUENTA')" class="btn btn-sm btn-outline-warning shadow-sm">
-                    <i class="bi bi-receipt"></i> Pedir Cuenta
-                </button>
-                <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'PAGANDO')" class="btn btn-sm btn-outline-info shadow-sm">
-                    <i class="bi bi-cash-coin"></i> Marcando Pago
-                </button>
-                 <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'ESPERANDO PEDIDO')" class="btn btn-sm btn-outline-dark shadow-sm">
-                    <i class="bi bi-hourglass-split"></i> En Cocina
-                </button>
-                <button onclick="irAMenuAdmin(${mesa.ID_MESAS}, ${mesa.NUMERO_MESA})" class="btn btn-dark w-100 mt-3 shadow-sm">
-                    <i class="bi bi-plus-circle"></i> AÑADIR MÁS PRODUCTOS
-                </button>
-            </div>
-        `;
+    <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 p-2 bg-light rounded-3 border">
+        <small class="w-100 text-muted text-center mb-1">Control de Servicio:</small>
+        
+        <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'PEDIDO EN MESA')" class="btn btn-sm btn-outline-secondary shadow-sm" style="color: #8B4513; border-color: #8B4513;">
+            <i class="bi bi-egg-fried"></i> Servir a Mesa
+        </button>
+
+        <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'PIDIENDO FACTURA')" class="btn btn-sm btn-outline-warning shadow-sm">
+            <i class="bi bi-receipt"></i> Efectivo
+        </button>
+
+        <button onclick="fuerzaEstado(${mesa.ID_MESAS}, 'PAGO CONFIRMADO')" class="btn btn-sm btn-outline-dark shadow-sm">
+            <i class="bi bi-check-all"></i> Confirmar Pago
+        </button>
+
+        <button onclick="irAMenuAdmin(${mesa.ID_MESAS}, ${mesa.NUMERO_MESA})" class="btn btn-dark w-100 mt-3 shadow-sm">
+            <i class="bi bi-plus-circle"></i> AÑADIR MÁS PRODUCTOS
+        </button>
+    </div>
+`;
 
         // Configuración de botones principales de SweetAlert
         let confirmButtonText = 'Liberar Mesa';
         let denyButtonText = '';
         let denyButtonColor = '#0d6efd';
 
-        if (mesa.ESTADO_MESA === 'ESPERANDO PEDIDO') {
-            denyButtonText = '<i class="bi bi-check-circle"></i> Comida Entregada';
-            denyButtonColor = '#0dcaf0';
-        } else if (['SOLICITO CUENTA', 'PAGANDO', 'PAGADO'].includes(mesa.ESTADO_MESA)) {
-            denyButtonText = '<i class="bi bi-file-pdf"></i> Factura';
-            denyButtonColor = '#0d6efd';
+        if (['EN COCINA', 'ESPERANDO PEDIDO'].includes(mesa.ESTADO_MESA)) {
+            denyButtonText = '<i class="bi bi-truck"></i> Despachar a Mesa';
+            denyButtonColor = '#8B4513'; // Color Marrón
+        } else if (['PIDIENDO FACTURA', 'PAGANDO', 'PAGO CONFIRMADO'].includes(mesa.ESTADO_MESA)) {
+            denyButtonText = '<i class="bi bi-file-pdf"></i> Imprimir Factura';
+            denyButtonColor = '#0d6efd'; // Azul
         }
 
         Swal.fire({
@@ -247,10 +263,10 @@ window.gestionarFlujoMesa = async function (mesa) {
             cancelButtonColor: '#ffffff',
             denyButtonColor: denyButtonColor,
             customClass: {
-                cancelButton: 'btn btn-outline-secondary text-dark' 
+                cancelButton: 'btn btn-outline-secondary text-dark'
             },
             width: '500px'
-}).then(async (result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 // Confirmación extra para no liberar por error
                 const confirm = await Swal.fire({
@@ -267,7 +283,7 @@ window.gestionarFlujoMesa = async function (mesa) {
                     try {
                         // 1. LLAMADA AL BACKEND: Cambia los pedidos de la mesa a 'FINALIZADO'
                         // Usamos el ID de la mesa para identificar qué pedidos archivar
-                        const responseFinalizar = await fetch(`/api/pedidos/finalizar-mesa/${mesa.ID_MESAS}`, { 
+                        const responseFinalizar = await fetch(`/api/pedidos/finalizar-mesa/${mesa.ID_MESAS}`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' }
                         });
@@ -277,12 +293,12 @@ window.gestionarFlujoMesa = async function (mesa) {
                         // 2. CAMBIO DE ESTADO DE LA MESA: La ponemos disponible para el siguiente QR
                         await actualizarEstadoMesa(mesa.ID_MESAS, 'DISPONIBLE');
 
-                        Swal.fire({ 
-                            icon: 'success', 
-                            title: 'Mesa Disponible', 
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Mesa Disponible',
                             text: 'Pedidos archivados y menú digital reseteado.',
-                            showConfirmButton: false, 
-                            timer: 1500 
+                            showConfirmButton: false,
+                            timer: 1500
                         });
 
                         // 3. RECARGA OPCIONAL: Si tienes una función para refrescar la lista de mesas
@@ -294,9 +310,11 @@ window.gestionarFlujoMesa = async function (mesa) {
                     }
                 }
             } else if (result.isDenied) {
-                if (mesa.ESTADO_MESA === 'ESPERANDO PEDIDO') {
-                    await actualizarEstadoMesa(mesa.ID_MESAS, 'RECIBIDO');
-                    Swal.fire({ icon: 'success', title: 'Pedido Entregado', timer: 1500 });
+                if (['EN COCINA', 'ESPERANDO PEDIDO'].includes(mesa.ESTADO_MESA)) {
+                    await actualizarEstadoMesa(mesa.ID_MESAS, 'PEDIDO EN MESA');
+                    // RECARGA INMEDIATA
+                    await cargarMesas();
+                    Swal.fire({ icon: 'success', title: '¡Plato en Mesa!', timer: 1500 });
                 } else {
                     generarFacturaPDF(mesa, productosData);
                 }
@@ -306,23 +324,23 @@ window.gestionarFlujoMesa = async function (mesa) {
 };
 
 //FUNCION PARA AGREGAR MAS PRODUCTOS A UNA MISMA MESA
-window.irAMenuAdmin = function(id, numero) {
-    localStorage.removeItem('mesa_actual'); 
-    
+window.irAMenuAdmin = function (id, numero) {
+    localStorage.removeItem('mesa_actual');
+
     const dataMesa = {
         id: parseInt(id),
         numero: parseInt(numero)
     };
-    
+
     localStorage.setItem('mesa_actual', JSON.stringify(dataMesa));
-    
+
     Swal.close();
 
     window.location.href = "/Webcony/dashboard";
 };
 
 // FUNCIÓN AUXILIAR PARA EL CAMBIO MANUAL
-window.fuerzaEstado = async function(id, estado) {
+window.fuerzaEstado = async function (id, estado) {
     Swal.close(); // Cerramos el modal actual
     await actualizarEstadoMesa(id, estado);
     Swal.fire({
@@ -456,4 +474,4 @@ window.eliminarMesa = function (id) {
             }
         }
     });
-};
+}; 

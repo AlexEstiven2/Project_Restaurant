@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombre = localStorage.getItem('userName');
     const rol = localStorage.getItem('userRol');
 
-    // Protección de ruta
+    // Protección de ruta 
     if (!rol || !nombre) {
         window.location.href = "/Webcony/login";
         return;
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     marcarEnlaceActivo();
-    
+
     // CARGA DE DATOS INICIAL
     cargarEstadisticasRealtime();
 
@@ -65,7 +65,7 @@ function marcarEnlaceActivo() {
             enlace.classList.add('active', 'text-white');
             enlace.classList.remove('text-white-50');
         }
-    }); 
+    });
 }
 
 /* ==========================================================================
@@ -78,7 +78,7 @@ async function cargarEstadisticasRealtime() {
     try {
         const inicio = document.getElementById('filtroInicio').value;
         const fin = document.getElementById('filtroFin').value;
-        
+
         let url = '/api/estadisticas';
         if (inicio && fin) {
             url += `?inicio=${inicio}&fin=${fin}`;
@@ -90,15 +90,15 @@ async function cargarEstadisticasRealtime() {
 
         // Formateador de moneda (COP)
         const money = new Intl.NumberFormat('es-CO', {
-            style: 'currency', 
-            currency: 'COP', 
+            style: 'currency',
+            currency: 'COP',
             maximumFractionDigits: 0
         });
 
         // Actualizar Tarjetas de Resumen
-        document.getElementById('ventas-hoy').textContent = money.format(data.resumen.ventas_totales || 0);
-        document.getElementById('total-pedidos').textContent = data.resumen.total_pedidos || 0;
-        document.getElementById('ticket-promedio').textContent = money.format(data.resumen.ticket_promedio || 0);
+        document.getElementById('ventas-hoy').textContent = money.format(data.resumen.ventas_totales || data.resumen.VENTAS_TOTALES || 0);
+        document.getElementById('total-pedidos').textContent = data.resumen.total_pedidos || data.resumen.TOTAL_PEDIDOS || 0;
+        document.getElementById('ticket-promedio').textContent = money.format(data.resumen.ticket_promedio || data.resumen.TICKET_PROMEDIO || 0);
 
         // Renderizar Gráficos Principales
         renderizarGraficoVentas(data.semana.labels, data.semana.valores);
@@ -113,7 +113,7 @@ function renderizarGraficoVentas(labels, valores) {
     const canvas = document.getElementById('graficoVentas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     if (chartVentas) chartVentas.destroy();
 
     chartVentas = new Chart(ctx, {
@@ -134,11 +134,11 @@ function renderizarGraficoVentas(labels, valores) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { 
+            plugins: {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return 'Ventas: $' + context.parsed.y.toLocaleString();
                         }
                     }
@@ -156,7 +156,7 @@ function renderizarGraficoPlatos(labels, valores) {
     const canvas = document.getElementById('graficoPlatos');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     if (chartPlatos) chartPlatos.destroy();
 
     chartPlatos = new Chart(ctx, {
@@ -174,8 +174,8 @@ function renderizarGraficoPlatos(labels, valores) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { 
-                legend: { position: 'bottom', labels: { padding: 20, usePointStyle: true } } 
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 20, usePointStyle: true } }
             },
             cutout: '70%'
         }
@@ -188,21 +188,21 @@ function renderizarGraficoPlatos(labels, valores) {
 let chartSatisfaccion = null;
 let todosLosFeedbacks = [];
 
-window.abrirModalFeedback = async function() {
+window.abrirModalFeedback = async function () {
     const modalElement = document.getElementById('modalFeedback');
     let modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
 
     try {
         const res = await fetch('/api/feedback');
         todosLosFeedbacks = await res.json();
-        
+
         actualizarGraficoSatisfaccion();
         renderizarListaFeedbacks();
-        
+
         modalInstance.show();
     } catch (error) {
         console.error("Error al cargar feedback:", error);
-        Swal.fire({ 
+        Swal.fire({
             icon: 'error',
             title: 'Error de conexión',
             text: 'No pudimos cargar las opiniones.',
@@ -215,7 +215,7 @@ function actualizarGraficoSatisfaccion() {
     const canvas = document.getElementById('graficoSatisfaccion');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     const conteo = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     todosLosFeedbacks.forEach(f => {
         if (conteo[f.ESTRELLAS] !== undefined) conteo[f.ESTRELLAS]++;
@@ -242,12 +242,12 @@ function actualizarGraficoSatisfaccion() {
     });
 }
 
-window.renderizarListaFeedbacks = function() {
+window.renderizarListaFeedbacks = function () {
     const filtro = document.getElementById('filtroEstrellas').value;
     const contenedor = document.getElementById('lista-comentarios');
-    
-    const filtrados = filtro === 'todas' 
-        ? todosLosFeedbacks 
+
+    const filtrados = filtro === 'todas'
+        ? todosLosFeedbacks
         : todosLosFeedbacks.filter(f => f.ESTRELLAS == filtro);
 
     if (filtrados.length === 0) {

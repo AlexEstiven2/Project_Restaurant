@@ -69,8 +69,10 @@ async function cargarQrMesas() {
         //Johan 
         //const baseIp = "192.168.1.33";
         //Yo
-        const baseIp = "192.168.1.21";
-        //Mateo 
+        //const baseIp = "192.168.1.21";
+        //Dvi
+        const baseIp = "192.168.137.200";
+        //Mateo ngrok http 9090
         //const baseIp = "192.168.1.18";
         //Zulma
         //const baseIp = "192.168.68.101"
